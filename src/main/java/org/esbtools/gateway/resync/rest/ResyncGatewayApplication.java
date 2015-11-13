@@ -1,14 +1,14 @@
-package org.esbtools.gateway.resync;
+package org.esbtools.gateway.resync.rest;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GatewayApplication extends Application {
+public class ResyncGatewayApplication extends Application {
     private Set<Object> singletons = new HashSet<Object>();
 
-    public GatewayApplication() {
-        singletons.add(new GatewayResource());
+    public ResyncGatewayApplication() {
+        singletons.add(new ResyncGateway());
     }
 
     @Override
