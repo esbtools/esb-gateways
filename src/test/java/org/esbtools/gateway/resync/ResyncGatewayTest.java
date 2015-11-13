@@ -1,14 +1,13 @@
 package org.esbtools.gateway.resync;
 
-import org.esbtools.gateway.resync.rest.ResyncGateway;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.ws.rs.core.Response;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -20,12 +19,12 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class ResyncGatewayTest {
 
-    //@Autowired
+    @Autowired
     private ResyncGateway resyncGateway;
 
     @Before
     public void setupTest() {
-        resyncGateway = new ResyncGateway();
+
     }
 
     @After
@@ -41,8 +40,8 @@ public class ResyncGatewayTest {
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        Response response = resyncGateway.resync(request);
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        assertEquals(ResyncResponse.Status.Success, resyncResponse.getStatus());
     }
 
     @Test
@@ -52,8 +51,8 @@ public class ResyncGatewayTest {
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        Response response = resyncGateway.resync(request);
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
     @Test
@@ -63,8 +62,8 @@ public class ResyncGatewayTest {
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        Response response = resyncGateway.resync(request);
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
     @Test
@@ -74,8 +73,8 @@ public class ResyncGatewayTest {
         request.setSystem("GitHub");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        Response response = resyncGateway.resync(request);
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
     @Test
@@ -85,8 +84,8 @@ public class ResyncGatewayTest {
         request.setSystem("GitHub");
         request.setKey("Login");
 
-        Response response = resyncGateway.resync(request);
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
 }
