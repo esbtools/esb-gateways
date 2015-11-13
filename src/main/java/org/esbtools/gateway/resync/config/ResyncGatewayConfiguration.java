@@ -9,4 +9,11 @@ public class ResyncGatewayConfiguration {
 
     private List<ResyncConfiguration> resyncConfigurations;
 
+    public List<ResyncConfiguration> getResyncConfigurations() {
+        return resyncConfigurations;
+    }
+
+    public void setResyncConfigurations(List<ResyncConfiguration> resyncConfigurations) {
+        this.resyncConfigurations = resyncConfigurations;
+    }
 }
