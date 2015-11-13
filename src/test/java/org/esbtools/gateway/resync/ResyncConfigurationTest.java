@@ -1,5 +1,6 @@
-package org.esbtools.gateway.resync.config;
+package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.resync.ResyncConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

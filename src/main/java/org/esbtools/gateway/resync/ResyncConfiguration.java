@@ -1,4 +1,4 @@
-package org.esbtools.gateway.resync.config;
+package org.esbtools.gateway.resync;
 
 /**
  * Created by dhaynes on 11/12/15.

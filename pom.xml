@@ -29,12 +29,13 @@
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javax.enterprise.version>7.0</javax.enterprise.version>
+        <javax.inject.version>1</javax.inject.version>
         <junit.version>4.11</junit.version>
         <jackson.version>2.4.4</jackson.version>
         <slf4j.version>1.7.12</slf4j.version>
-        <resteasy.version>3.0.13.Final</resteasy.version>
-        <javax.enterprise.version>7.0</javax.enterprise.version>
-        <javax.inject.version>1</javax.inject.version>
+        <commons-lang.version>3.4</commons-lang.version>
+        <commons-collections.version>4.0</commons-collections.version>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
@@ -93,13 +94,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-bom</artifactId>
-                <version>3.0.13.Final</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>4.3.11.Final</version>
@@ -111,12 +105,20 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.0</version>
+            <version>${commons-collections.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -124,46 +126,19 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-servlet-initializer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-spring</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jaxb-impl</artifactId>
-                    <groupId>com.sun.xml.bind</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>sjsxp</artifactId>
-                    <groupId>com.sun.xml.stream</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jsr250-api</artifactId>
-                    <groupId>javax.annotation</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>activation</artifactId>
-                    <groupId>javax.activation</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -172,7 +147,7 @@
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <version>${javax.inject.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -194,11 +169,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>${resteasy.version}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
