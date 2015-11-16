@@ -45,7 +45,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingEntityReturnErrorResponse() throws Exception {
+    public void doesMissingEntityReturnBadRequestResponse() throws Exception {
         ResyncRequest request = new ResyncRequest();
         request.setSystem("GitHub");
         request.setKey("Login");
@@ -56,7 +56,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingSystemReturnErrorResponse() throws Exception {
+    public void doesMissingSystemReturnBadRequestResponse() throws Exception {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setKey("Login");
@@ -67,7 +67,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingKeyReturnErrorResponse() throws Exception {
+    public void doesMissingKeyReturnBadRequestResponse() throws Exception {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("GitHub");
@@ -78,7 +78,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingValuesReturnErrorResponse() throws Exception {
+    public void doesMissingValuesReturnBadRequestResponse() throws Exception {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("GitHub");
@@ -88,4 +88,12 @@ public class ResyncGatewayTest {
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
+    @Test
+    public void doesMissingValuesReturnServerErrorResponse() throws Exception {
+        ResyncRequest request = new ResyncRequest();
+
+        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+    }
+    
 }

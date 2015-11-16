@@ -1,9 +1,9 @@
 package org.esbtools.gateway.resync;
 
-import org.esbtools.gateway.resync.ResyncConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.jms.core.JmsTemplate;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,11 +14,13 @@ import static org.junit.Assert.assertEquals;
 public class ResyncConfigurationTest {
 
     ResyncConfiguration resyncConfiguration;
+    JmsTemplate jmsTemplate;
 
     @Before
     public void setUp() throws Exception {
+        jmsTemplate = new JmsTemplate();
         resyncConfiguration = new ResyncConfiguration();
-        resyncConfiguration.setBroker("broker");
+        resyncConfiguration.setBroker(jmsTemplate);
         resyncConfiguration.setEndSystem("endSystem");
         resyncConfiguration.setResyncQueue("resyncQueue");
     }
@@ -41,13 +43,14 @@ public class ResyncConfigurationTest {
 
     @Test
     public void testGetBroker() throws Exception {
-        assertEquals("broker", resyncConfiguration.getBroker());
+        assertEquals(jmsTemplate, resyncConfiguration.getBroker());
     }
 
     @Test
     public void testSetBroker() throws Exception {
-        resyncConfiguration.setBroker("broker1");
-        assertEquals("broker1", resyncConfiguration.getBroker());
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        resyncConfiguration.setBroker(jmsTemplate);
+        assertEquals(jmsTemplate, resyncConfiguration.getBroker());
     }
 
     @Test
