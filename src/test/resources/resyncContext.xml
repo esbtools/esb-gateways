@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:property-placeholder location="classpath:broker.properties"/>
+
+    <bean id="resyncService" class="org.esbtools.gateway.resync.ResyncService" >
+        <property name="resyncConfigurations">
+            <map>
+                <entry key="GitHub"><ref bean="gitHubSystemConfiguration"/></entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
+        <property name="endSystem" value="GitHub" />
+        <property name="broker" ref="amqJmsTemplate" />
+    </bean>
+
+    <bean id="amqJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="pooledConnectionFactory" />
+        <property name="defaultDestination" ref="defaultDestination" />
+    </bean>
+
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+        <property name="maxConnections" value="10" />
+        <property name="connectionFactory" >
+            <bean class="org.apache.activemq.ActiveMQSslConnectionFactory">
+                <property name="brokerURL" value="${broker.url}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="defaultDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="resync" />
+    </bean>
+
+</beans>

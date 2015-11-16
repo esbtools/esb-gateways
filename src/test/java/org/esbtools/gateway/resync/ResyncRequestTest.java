@@ -83,4 +83,18 @@ public class ResyncRequestTest {
     public void testToString() throws Exception {
         assertEquals("ResyncRequest [entity=entity, system=system, key=key, values=[value1, value2]]", resyncRequest.toString());
     }
+
+    @Test
+    public void testToXml() throws Exception {
+        System.out.println(resyncRequest.toXML());
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+                "<SyncRequest>\n" +
+                "    <EntityName>entity</EntityName>\n" +
+                "    <KeyName>key</KeyName>\n" +
+                "    <System>system</System>\n" +
+                "    <KeyValue>value1</KeyValue>\n" +
+                "    <KeyValue>value2</KeyValue>\n" +
+                "</SyncRequest>\n", resyncRequest.toXML());
+    }
+
 }
