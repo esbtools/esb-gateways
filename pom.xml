@@ -271,6 +271,73 @@
             </build>
         </profile>
         <profile>
+            <profile>
+                <id>rpm</id>
+                <!-- RPM packing -->
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>rpm-maven-plugin</artifactId>
+                            <version>2.1.2</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>attached-rpm</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <name>esbtools-${project.artifactId}</name>
+                                <release>${rpm.release}</release>
+                                <group>${rpm.group}</group>
+                                <copyright>${rpm.copyright}</copyright>
+                                <summary>${rpm.summary}</summary>
+                                <epoch>1</epoch>
+                                <buildSRPM>true</buildSRPM>
+                                <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                                <mappings>
+                                    <mapping>
+                                        <directory>${rpm.war.directory}</directory>
+                                        <filemode>${rpm.filemode}</filemode>
+                                        <username>${rpm.username}</username>
+                                        <groupname>${rpm.groupname}</groupname>
+                                        <sources>
+                                            <source>
+                                                <location>target/${project.artifactId}-${project.version}.war</location>
+                                            </source>
+                                        </sources>
+                                    </mapping>
+                                    <mapping>
+                                        <directory>${rpm.jcliff.directory}</directory>
+                                        <filemode>${rpm.filemode}</filemode>
+                                        <username>${rpm.username}</username>
+                                        <groupname>${rpm.groupname}</groupname>
+                                        <sources>
+                                            <source>
+                                                <location>${project.build.outputDirectory}/${project.artifactId}.deploy</location>
+                                            </source>
+                                        </sources>
+                                    </mapping>
+                                </mappings>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                    <resources>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <filtering>false</filtering>
+                            <excludes>
+                                <exclude>deploy/*.deploy</exclude>
+                            </excludes>
+                        </resource>
+                        <resource>
+                            <directory>src/main/resources/deploy</directory>
+                            <filtering>true</filtering>
+                        </resource>
+                    </resources>
+                </build>
+            </profile>
             <id>release</id>
             <build>
                 <plugins>
