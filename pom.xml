@@ -35,6 +35,8 @@
         <jackson.version>2.4.4</jackson.version>
         <slf4j.version>1.7.12</slf4j.version>
         <activemq.version>5.12.1</activemq.version>
+        <oracle.aq.version>10g</oracle.aq.version>
+        <oracle.jdbc.version>11g</oracle.jdbc.version>
         <commons-lang.version>3.4</commons-lang.version>
         <commons-collections.version>4.0</commons-collections.version>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
@@ -150,12 +152,6 @@
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>${javax.inject.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
@@ -268,6 +264,73 @@
                         </configuration>
                     </plugin>
                 </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>rpm</id>
+            <!-- RPM packing -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>attached-rpm</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <name>esbtools-${project.artifactId}</name>
+                            <release>${rpm.release}</release>
+                            <group>${rpm.group}</group>
+                            <copyright>${rpm.copyright}</copyright>
+                            <summary>${rpm.summary}</summary>
+                            <epoch>1</epoch>
+                            <buildSRPM>true</buildSRPM>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <mappings>
+                                <mapping>
+                                    <directory>${rpm.war.directory}</directory>
+                                    <filemode>${rpm.filemode}</filemode>
+                                    <username>${rpm.username}</username>
+                                    <groupname>${rpm.groupname}</groupname>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}.war</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.jcliff.directory}</directory>
+                                    <filemode>${rpm.filemode}</filemode>
+                                    <username>${rpm.username}</username>
+                                    <groupname>${rpm.groupname}</groupname>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.outputDirectory}/${project.artifactId}.deploy</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                            </mappings>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>false</filtering>
+                        <excludes>
+                            <exclude>deploy/*.deploy</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources/deploy</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
             </build>
         </profile>
         <profile>
