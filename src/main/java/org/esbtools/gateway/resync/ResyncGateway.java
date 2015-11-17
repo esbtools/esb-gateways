@@ -23,10 +23,9 @@ public class ResyncGateway {
 
     @RequestMapping(value="/resync", method=RequestMethod.POST, produces="application/json")
     public @ResponseBody ResyncResponse resync(@RequestBody ResyncRequest request) {
-
-        ResyncResponse resyncResponse = resyncService.resync(request);
-
+        ResyncResponse resyncResponse;
         try {
+            resyncResponse = resyncService.resync(request);
             if(ResyncResponse.Status.Error.equals(resyncResponse.getStatus())) {
                 handleBadRequest();
             } else {
