@@ -19,7 +19,7 @@ public class ResyncGateway {
     private static final Logger LOGGER= LoggerFactory.getLogger(ResyncGateway.class);
 
     @Autowired
-    private ResyncService resyncService;
+    private ResyncService resyncService = null;
 
     @RequestMapping(value="/resync", method=RequestMethod.POST, produces="application/json")
     public @ResponseBody ResyncResponse resync(@RequestBody ResyncRequest request) {
