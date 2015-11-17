@@ -1,7 +1,7 @@
 <jboss-deployment-structure>
     <deployment>
         <dependencies>
-            <module name="org.esbtools.gateway.resync" />
+            <module name="org.esbtools.gateway.resync"/>
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
