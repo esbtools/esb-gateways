@@ -29,12 +29,17 @@ public class ResyncGateway {
             if(ResyncResponse.Status.Error.equals(resyncResponse.getStatus())) {
                 handleBadRequest();
             } else {
-                //do nothing
+                 handleOkRequest();
             }
         } catch (RuntimeException e) {
             handleServerError();
         }
         return resyncResponse;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    private void handleOkRequest() {
+        //Intentionally does nothing
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
