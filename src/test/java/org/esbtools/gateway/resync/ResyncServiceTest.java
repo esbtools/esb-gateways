@@ -4,10 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -16,8 +16,11 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class ResyncServiceTest {
 
-    @Autowired
+    @Resource(name="resyncService")
     private ResyncService resyncService;
+
+    @Resource(name="badResyncService")
+    private ResyncService badResyncService;
 
     @Before
     public void setupTest() {
@@ -83,6 +86,32 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+    }
+
+    @Test
+    public void doesSendingUnconfiguredSystemReturnErrorResponse() throws Exception {
+        ResyncRequest request = new ResyncRequest();
+        request.setEntity("User");
+        request.setSystem("BitHub");
+        request.setKey("Login");
+        request.setValues(Arrays.asList("derek63","dhaynes"));
+
+        ResyncResponse resyncResponse = resyncService.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(String.format("The %s system is not configured properly", request.getSystem()), resyncResponse.getErrorMessage());
+    }
+
+    @Test
+    public void doesServerErrorReturnErrorResponse() throws Exception {
+        ResyncRequest request = new ResyncRequest();
+        request.setEntity("User");
+        request.setSystem("GitHub");
+        request.setKey("Login");
+        request.setValues(Arrays.asList("derek63","dhaynes"));
+
+        ResyncResponse resyncResponse = badResyncService.resync(request);
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(String.format("There was a problem enqueuing the selected message: %s", request.toString()), resyncResponse.getErrorMessage());
     }
 
 }

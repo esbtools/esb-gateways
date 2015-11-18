@@ -38,4 +38,32 @@
         <constructor-arg index="0" value="resync" />
     </bean>
 
+    <!-- Intentionally misconfigured service bean (bad url for non-existant broker) for testing server error -->
+    <bean id="badResyncService" class="org.esbtools.gateway.resync.ResyncService" >
+        <property name="resyncConfigurations">
+            <map>
+                <entry key="GitHub"><ref bean="badGitHubSystemConfiguration"/></entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="badGitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
+        <property name="endSystem" value="GitHub" />
+        <property name="broker" ref="badAmqJmsTemplate" />
+    </bean>
+
+    <bean id="badAmqJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="badPooledConnectionFactory" />
+        <property name="defaultDestination" ref="defaultDestination"/>
+    </bean>
+
+    <bean id="badPooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+        <property name="maxConnections" value="10" />
+        <property name="connectionFactory" >
+            <bean class="org.apache.activemq.ActiveMQSslConnectionFactory">
+                <property name="brokerURL" value="${badbroker.url}" />
+            </bean>
+        </property>
+    </bean>
+
 </beans>
