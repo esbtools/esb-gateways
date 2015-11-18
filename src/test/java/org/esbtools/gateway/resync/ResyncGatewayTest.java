@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -37,7 +39,10 @@ public class ResyncGatewayTest {
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(request);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Success, resyncResponse.getStatus());
     }
 
@@ -48,7 +53,10 @@ public class ResyncGatewayTest {
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(request);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+        ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
@@ -59,7 +67,10 @@ public class ResyncGatewayTest {
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(request);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+        ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
@@ -70,7 +81,10 @@ public class ResyncGatewayTest {
         request.setSystem("GitHub");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(request);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+        ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
@@ -81,15 +95,10 @@ public class ResyncGatewayTest {
         request.setSystem("GitHub");
         request.setKey("Login");
 
-        ResyncResponse resyncResponse = resyncGateway.resync(request);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-    }
+        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(request);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
-    @Test
-    public void doesMissingValuesReturnServerErrorResponse() throws Exception {
-        ResyncRequest request = new ResyncRequest();
-
-        ResyncResponse resyncResponse = resyncGateway.resync(request);
+        ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
     
