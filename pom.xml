@@ -194,6 +194,17 @@
             <artifactId>activemq-spring</artifactId>
             <version>${activemq.version}</version>
         </dependency>
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>aqapi13</artifactId>
+            <version>${oracle.aq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${oracle.jdbc.version}</version>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -257,6 +268,18 @@
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
                         <version>9.2.1.v20140609</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>oracle</groupId>
+                                <artifactId>aqapi13</artifactId>
+                                <version>${oracle.aq.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>oracle</groupId>
+                                <artifactId>ojdbc6</artifactId>
+                                <version>${oracle.jdbc.version}</version>
+                            </dependency>
+                        </dependencies>
                         <configuration>
                             <httpConnector>
                                 <host>localhost</host>

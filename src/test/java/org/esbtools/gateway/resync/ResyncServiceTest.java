@@ -42,6 +42,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Success, resyncResponse.getStatus());
+        assertEquals(null, resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -53,6 +54,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -64,6 +66,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -75,6 +78,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -86,6 +90,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
