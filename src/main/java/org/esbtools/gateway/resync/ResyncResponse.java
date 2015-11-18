@@ -36,7 +36,7 @@ public class ResyncResponse {
     }
 
     public boolean wasSuccessful() {
-        return Status.Success.equals(status) ? true : false;
+        return Status.Success.equals(status);
     }
 
     @Override
