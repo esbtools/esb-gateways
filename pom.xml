@@ -194,17 +194,6 @@
             <artifactId>activemq-spring</artifactId>
             <version>${activemq.version}</version>
         </dependency>
-        <dependency>
-            <groupId>oracle</groupId>
-            <artifactId>aqapi13</artifactId>
-            <version>${oracle.aq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>${oracle.jdbc.version}</version>
-        </dependency>
-
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
