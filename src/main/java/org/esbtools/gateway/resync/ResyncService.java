@@ -14,30 +14,30 @@ import javax.jms.Session;
 import java.util.LinkedHashMap;
 
 @Service
-@Resource(name="resyncService")
+@Resource(name = "resyncService")
 public class ResyncService {
 
     protected LinkedHashMap<String, ResyncConfiguration> resyncConfigurations;
 
-    protected static final Logger LOGGER= LoggerFactory.getLogger(ResyncService.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(ResyncService.class);
 
     public void setResyncConfigurations(LinkedHashMap<String, ResyncConfiguration> resyncConfigurations) {
         this.resyncConfigurations = resyncConfigurations;
     }
 
     public ResyncResponse resync(ResyncRequest resyncRequest) {
-        LOGGER.debug(resyncRequest.toString());
+        LOGGER.debug("{}", resyncRequest);
 
         ResyncResponse resyncResponse = new ResyncResponse();
 
-        if(resyncRequest.hasValuesForRequiredProperties()) {
+        if (resyncRequest.hasValuesForRequiredProperties()) {
             enqueue(resyncRequest, resyncResponse);
         } else {
             resyncResponse.setErrorMessage("One or more required values was not present");
             resyncResponse.setStatus(ResyncResponse.Status.Error);
         }
 
-        LOGGER.info(resyncResponse.toString());
+        LOGGER.info("{}", resyncResponse);
         return resyncResponse;
     }
 
@@ -45,11 +45,11 @@ public class ResyncService {
         LOGGER.debug(resyncRequest.toString());
 
         try {
+            LOGGER.info("Sending message {}", resyncRequest.toXML());
             getDestination(resyncRequest).send(new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     Message message = session.createTextMessage(resyncRequest.toXML());
-                    LOGGER.info("Sending message");
                     return message;
                 }
             });
@@ -68,7 +68,7 @@ public class ResyncService {
 
     private JmsTemplate getDestination(final ResyncRequest resyncRequest) {
         ResyncConfiguration resyncConfiguration = resyncConfigurations.get(resyncRequest.getSystem());
-        if(null == resyncConfiguration) {
+        if (null == resyncConfiguration) {
             throw new java.lang.IllegalStateException(String.format("ResyncConfiguration for endSystem %s doesn't exist", resyncRequest.getSystem()));
         }
         return resyncConfigurations.get(resyncRequest.getSystem()).getBroker();

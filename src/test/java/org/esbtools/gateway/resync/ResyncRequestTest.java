@@ -83,7 +83,6 @@ public class ResyncRequestTest {
 
     @Test
     public void testToXml() throws Exception {
-        System.out.println(resyncRequest.toXML());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<SyncRequest>\n" +
                 "    <EntityName>entity</EntityName>\n" +
