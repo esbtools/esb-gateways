@@ -4,26 +4,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-
-import static org.esbtools.gateway.resync.ResyncError.withContext;
 
 import static org.esbtools.gateway.resync.ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT;
 import static org.esbtools.gateway.resync.ResyncError.PROBLEM_ENQUEUING;
-import static org.esbtools.gateway.resync.ResyncError.SYSTEM_NOT_CONFIGURED;
+import static org.esbtools.gateway.resync.ResyncError.withContext;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class ResyncServiceTest {
 
-    @Autowired
+    @Resource(name="gitHubResyncService")
     private ResyncService resyncService;
+
+    @Resource(name="badHubResyncService")
+    private ResyncService badResyncService;
 
     @Before
     public void setupTest() {
@@ -97,19 +97,6 @@ public class ResyncServiceTest {
     }
 
     @Test
-    public void doesSendingUnconfiguredSystemReturnErrorResponse() throws Exception {
-        ResyncRequest resyncRequest = new ResyncRequest();
-        resyncRequest.setEntity("User");
-        resyncRequest.setSystem("BitHub");
-        resyncRequest.setKey("Login");
-        resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
-
-        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(SYSTEM_NOT_CONFIGURED, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
-    }
-
-    @Test
     public void doesServerErrorReturnErrorResponse() throws Exception {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
@@ -117,7 +104,7 @@ public class ResyncServiceTest {
         resyncRequest.setKey("Login");
         resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
+        ResyncResponse resyncResponse = badResyncService.resync(resyncRequest);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
         assertEquals(withContext(PROBLEM_ENQUEUING, resyncRequest.toString()), resyncResponse.getErrorMessage());
     }

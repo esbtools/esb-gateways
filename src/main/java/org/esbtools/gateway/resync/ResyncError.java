@@ -1,13 +1,6 @@
 package org.esbtools.gateway.resync;
 
-/**
- * Created by dhaynes on 11/18/15.
- */
-public class ResyncError {
-
-    private ResyncError (){
-
-    }
+public final class ResyncError {
 
     public static final String ALL_REQUIRED_VALUES_NOT_PRESENT = "One or more required values was not present";
     public static final String SYSTEM_NOT_CONFIGURED = "The %s system is not configured properly";

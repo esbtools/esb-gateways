@@ -9,6 +9,15 @@ public class ResyncResponse {
     private Status status = Status.Success;
     private String errorMessage;
 
+    public ResyncResponse() {
+
+    }
+
+    public ResyncResponse(Status status, String errorMessage) {
+        this.status = status;
+        this.errorMessage = errorMessage;
+    }
+
     public Status getStatus() {
         return status;
     }

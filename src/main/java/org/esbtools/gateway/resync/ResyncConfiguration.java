@@ -1,14 +1,24 @@
 package org.esbtools.gateway.resync;
 
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class ResyncConfiguration {
 
     private String endSystem;
     private JmsTemplate broker;
     private String resyncQueue;
+
+    public ResyncConfiguration() {
+
+    }
+
+    public ResyncConfiguration(String endSystem, JmsTemplate broker, String resyncQueue) {
+        this.endSystem = endSystem;
+        this.broker = broker;
+        this.resyncQueue = resyncQueue;
+    }
 
     public String getEndSystem() {
         return endSystem;

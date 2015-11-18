@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 
+import static org.esbtools.gateway.resync.ResyncError.SYSTEM_NOT_CONFIGURED;
+import static org.esbtools.gateway.resync.ResyncError.withContext;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -100,6 +102,21 @@ public class ResyncGatewayTest {
 
         ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+    }
+
+    @Test
+    public void doesSendingUnconfiguredSystemReturnErrorResponse() throws Exception {
+        ResyncRequest resyncRequest = new ResyncRequest();
+        resyncRequest.setEntity("User");
+        resyncRequest.setSystem("BitHub");
+        resyncRequest.setKey("Login");
+        resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
+
+        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(resyncRequest);
+        ResyncResponse resyncResponse = responseEntity.getBody();
+
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(withContext(SYSTEM_NOT_CONFIGURED, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test

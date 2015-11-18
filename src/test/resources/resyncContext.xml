@@ -7,9 +7,18 @@
 
     <context:property-placeholder location="classpath:broker.properties"/>
 
+    <bean id="gitHubResyncService" class="org.esbtools.gateway.resync.JmsResyncService">
+        <constructor-arg index="0" ref="gitHubSystemConfiguration" />
+    </bean>
+
+    <bean id="badHubResyncService" class="org.esbtools.gateway.resync.JmsResyncService">
+        <constructor-arg index="0" ref="badHubSystemConfiguration" />
+    </bean>
+
     <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
-        <property name="endSystem" value="GitHub" />
-        <property name="broker" ref="amqJmsTemplate" />
+        <constructor-arg index="0" value="GitHub" />
+        <constructor-arg index="1" ref="amqJmsTemplate" />
+        <constructor-arg index="2" value="resync" />
     </bean>
 
     <bean id="amqJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
@@ -31,8 +40,9 @@
     </bean>
 
     <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
-        <property name="endSystem" value="BadHub" />
-        <property name="broker" ref="badAmqJmsTemplate" />
+        <constructor-arg index="0" value="BadHub" />
+        <constructor-arg index="1" ref="badAmqJmsTemplate" />
+        <constructor-arg index="2" value="resync" />
     </bean>
 
     <bean id="badAmqJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
