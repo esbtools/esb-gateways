@@ -49,7 +49,7 @@ public class JmsResyncService implements ResyncService {
     }
 
     private ResyncResponse enqueue(final ResyncRequest resyncRequest, ResyncResponse resyncResponse) {
-        LOGGER.debug(resyncRequest.toString());
+        LOGGER.debug("{}", resyncRequest);
 
         try {
             LOGGER.info("Sending message {}", resyncRequest.toXML());
