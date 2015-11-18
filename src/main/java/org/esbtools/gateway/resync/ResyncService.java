@@ -2,17 +2,15 @@ package org.esbtools.gateway.resync;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.NoSuchElementException;
 
 import static org.esbtools.gateway.resync.ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT;
 import static org.esbtools.gateway.resync.ResyncError.PROBLEM_ENQUEUING;
@@ -20,10 +18,9 @@ import static org.esbtools.gateway.resync.ResyncError.SYSTEM_NOT_CONFIGURED;
 import static org.esbtools.gateway.resync.ResyncError.withContext;
 
 @Service
-@Resource(name="resyncService")
 public class ResyncService {
 
-    protected Map<String, ResyncConfiguration> resyncConfigurations = Collections.emptyMap();
+    protected ResyncConfigurations resyncConfigurations;
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(ResyncService.class);
 
@@ -31,11 +28,8 @@ public class ResyncService {
 
     }
 
-    public ResyncService(Map<String, ResyncConfiguration> resyncConfigurations) {
-        this.resyncConfigurations = resyncConfigurations;
-    }
-
-    public void setResyncConfigurations(LinkedHashMap<String, ResyncConfiguration> resyncConfigurations) {
+    @Autowired
+    public ResyncService(ResyncConfigurations resyncConfigurations) {
         this.resyncConfigurations = resyncConfigurations;
     }
 
@@ -68,7 +62,7 @@ public class ResyncService {
                 }
             });
             resyncResponse.setStatus(ResyncResponse.Status.Success);
-        } catch (IllegalStateException e) {
+        } catch (NoSuchElementException e) {
             LOGGER.error("The {} system is not configured properly", resyncRequest.getSystem(), e);
             resyncResponse.setErrorMessage(withContext(SYSTEM_NOT_CONFIGURED, resyncRequest.getSystem()));
             resyncResponse.setStatus(ResyncResponse.Status.Error);
@@ -80,12 +74,8 @@ public class ResyncService {
         return resyncResponse;
     }
 
-    private JmsTemplate getDestination(final ResyncRequest resyncRequest) throws RuntimeException {
-        ResyncConfiguration resyncConfiguration = resyncConfigurations.get(resyncRequest.getSystem());
-        if (null == resyncConfiguration) {
-            throw new IllegalStateException(ResyncError.withContext("ResyncConfiguration for endSystem %s doesn't exist", resyncRequest.getSystem()));
-        }
-        return resyncConfigurations.get(resyncRequest.getSystem()).getBroker();
+    private JmsTemplate getDestination(final ResyncRequest resyncRequest) {
+        return resyncConfigurations.getBySystem(resyncRequest.getSystem()).getBroker();
     }
 
 }

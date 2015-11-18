@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.esbtools.gateway.resync.ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT;
+import static org.esbtools.gateway.resync.ResyncError.PROBLEM_ENQUEUING;
+import static org.esbtools.gateway.resync.ResyncError.withContext;
 
 @RestController
 @RequestMapping("/")
@@ -36,9 +39,9 @@ public class ResyncGateway {
         if(resyncResponse.wasSuccessful()) {
             responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.OK);
         } else {
-            if(ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT.equals(resyncResponse.getErrorMessage())) {
+            if(ALL_REQUIRED_VALUES_NOT_PRESENT.equals(resyncResponse.getErrorMessage())) {
                 responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.BAD_REQUEST);
-            } else if(String.format(ResyncError.PROBLEM_ENQUEUING, resyncResponse.getErrorMessage()).equals(request.toString())) {
+            } else if(withContext(PROBLEM_ENQUEUING, request.toString()).equals(resyncResponse.getErrorMessage())) {
                 responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }

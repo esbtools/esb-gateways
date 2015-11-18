@@ -7,22 +7,6 @@
 
     <context:property-placeholder location="classpath:broker.properties"/>
 
-    <bean id="resyncGateway" class="org.esbtools.gateway.resync.ResyncGateway">
-        <constructor-arg index="0" ref="resyncService" />
-    </bean>
-
-    <bean id="badResyncGateway" class="org.esbtools.gateway.resync.ResyncGateway">
-        <constructor-arg index="0" ref="badResyncService" />
-    </bean>
-
-    <bean id="resyncService" class="org.esbtools.gateway.resync.ResyncService" >
-        <property name="resyncConfigurations">
-            <map>
-                <entry key="GitHub"><ref bean="gitHubSystemConfiguration"/></entry>
-            </map>
-        </property>
-    </bean>
-
     <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
         <property name="endSystem" value="GitHub" />
         <property name="broker" ref="amqJmsTemplate" />
@@ -46,17 +30,8 @@
         <constructor-arg index="0" value="resync" />
     </bean>
 
-    <!-- Intentionally misconfigured service bean (bad url for non-existant broker) for testing server error -->
-    <bean id="badResyncService" class="org.esbtools.gateway.resync.ResyncService" >
-        <property name="resyncConfigurations">
-            <map>
-                <entry key="GitHub"><ref bean="badGitHubSystemConfiguration"/></entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="badGitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
-        <property name="endSystem" value="GitHub" />
+    <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
+        <property name="endSystem" value="BadHub" />
         <property name="broker" ref="badAmqJmsTemplate" />
     </bean>
 
