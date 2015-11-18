@@ -54,7 +54,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
+        assertEquals(String.format(ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT, request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
+        assertEquals(String.format(ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT, request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
+        assertEquals(String.format(ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT, request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(String.format("One or more required values was not present", request.getSystem()), resyncResponse.getErrorMessage());
+        assertEquals(String.format(ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT, request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = resyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(String.format("The %s system is not configured properly", request.getSystem()), resyncResponse.getErrorMessage());
+        assertEquals(String.format(ResyncError.SYSTEM_NOT_CONFIGURED, request.getSystem()), resyncResponse.getErrorMessage());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class ResyncServiceTest {
 
         ResyncResponse resyncResponse = badResyncService.resync(request);
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(String.format("There was a problem enqueuing the selected message: %s", request.toString()), resyncResponse.getErrorMessage());
+        assertEquals(String.format(ResyncError.PROBLEM_ENQUEUING, request.toString()), resyncResponse.getErrorMessage());
     }
 
 }

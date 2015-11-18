@@ -17,23 +17,32 @@ public class ResyncGateway {
 
     private static final Logger LOGGER= LoggerFactory.getLogger(ResyncGateway.class);
 
+    public ResyncGateway() {
+
+    }
+
+    public ResyncGateway(ResyncService resyncService) {
+        this.resyncService = resyncService;
+    }
+
     @Autowired
     private ResyncService resyncService;
 
     @RequestMapping(value="/resync", method=RequestMethod.POST, produces="application/json")
     public ResponseEntity<ResyncResponse> resync(@RequestBody ResyncRequest request) {
         ResponseEntity<ResyncResponse> responseEntity = null;
-        ResyncResponse resyncResponse = null;
-        try {
-            resyncResponse = resyncService.resync(request);
-            if(ResyncResponse.Status.Error.equals(resyncResponse.getStatus())) {
+        ResyncResponse resyncResponse = resyncService.resync(request);
+
+        if(resyncResponse.wasSuccessful()) {
+            responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.OK);
+        } else {
+            if(ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT.equals(resyncResponse.getErrorMessage())) {
                 responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.BAD_REQUEST);
-            } else {
-                responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.OK);
+            } else if(String.format(ResyncError.PROBLEM_ENQUEUING, resyncResponse.getErrorMessage()).equals(request.toString())) {
+                responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (RuntimeException e) {
-            responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return responseEntity;
     }
 

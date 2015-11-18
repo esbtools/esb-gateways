@@ -26,6 +26,10 @@ public class ResyncResponse {
         this.setStatus(Status.Error);
     }
 
+    public boolean wasSuccessful() {
+        return Status.Success.equals(status) ? true : false;
+    }
+
     @Override
     public String toString() {
         return String.format("ResyncResponse [status=%s, errorMessage=%s]", status, errorMessage);

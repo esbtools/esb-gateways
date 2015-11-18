@@ -4,12 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -18,8 +18,11 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class ResyncGatewayTest {
 
-    @Autowired
+    @Resource(name="resyncGateway")
     private ResyncGateway resyncGateway;
+
+    @Resource(name="badResyncGateway")
+    private ResyncGateway badResyncGateway;
 
     @Before
     public void setupTest() {
@@ -101,5 +104,19 @@ public class ResyncGatewayTest {
         ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
-    
+
+    //@Test
+    public void doesServerErrorReturnInternalServerErrorResponse() throws Exception {
+        ResyncRequest request = new ResyncRequest();
+        request.setEntity("User");
+        request.setSystem("GitHub");
+        request.setKey("Login");
+        request.setValues(Arrays.asList("derek63","dhaynes"));
+
+        ResponseEntity<ResyncResponse> responseEntity = badResyncGateway.resync(request);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+
+        ResyncResponse resyncResponse = responseEntity.getBody();
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+    }
 }

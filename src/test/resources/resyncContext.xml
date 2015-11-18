@@ -7,6 +7,14 @@
 
     <context:property-placeholder location="classpath:broker.properties"/>
 
+    <bean id="resyncGateway" class="org.esbtools.gateway.resync.ResyncGateway">
+        <constructor-arg index="0" ref="resyncService" />
+    </bean>
+
+    <bean id="badResyncGateway" class="org.esbtools.gateway.resync.ResyncGateway">
+        <constructor-arg index="0" ref="badResyncService" />
+    </bean>
+
     <bean id="resyncService" class="org.esbtools.gateway.resync.ResyncService" >
         <property name="resyncConfigurations">
             <map>

@@ -2,7 +2,6 @@ package org.esbtools.gateway.resync;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
@@ -15,13 +14,26 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.esbtools.gateway.resync.ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT;
+import static org.esbtools.gateway.resync.ResyncError.PROBLEM_ENQUEUING;
+import static org.esbtools.gateway.resync.ResyncError.SYSTEM_NOT_CONFIGURED;
+import static org.esbtools.gateway.resync.ResyncError.withContext;
+
 @Service
-@Resource(name = "resyncService")
+@Resource(name="resyncService")
 public class ResyncService {
 
     protected Map<String, ResyncConfiguration> resyncConfigurations = Collections.emptyMap();
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(ResyncService.class);
+
+    public ResyncService() {
+
+    }
+
+    public ResyncService(Map<String, ResyncConfiguration> resyncConfigurations) {
+        this.resyncConfigurations = resyncConfigurations;
+    }
 
     public void setResyncConfigurations(LinkedHashMap<String, ResyncConfiguration> resyncConfigurations) {
         this.resyncConfigurations = resyncConfigurations;
@@ -35,7 +47,7 @@ public class ResyncService {
         if (resyncRequest.hasValuesForRequiredProperties()) {
             enqueue(resyncRequest, resyncResponse);
         } else {
-            resyncResponse.setErrorMessage("One or more required values was not present");
+            resyncResponse.setErrorMessage(ALL_REQUIRED_VALUES_NOT_PRESENT);
             resyncResponse.setStatus(ResyncResponse.Status.Error);
         }
 
@@ -58,11 +70,11 @@ public class ResyncService {
             resyncResponse.setStatus(ResyncResponse.Status.Success);
         } catch (IllegalStateException e) {
             LOGGER.error("The {} system is not configured properly", resyncRequest.getSystem(), e);
-            resyncResponse.setErrorMessage(String.format("The %s system is not configured properly", resyncRequest.getSystem()));
+            resyncResponse.setErrorMessage(withContext(SYSTEM_NOT_CONFIGURED, resyncRequest.getSystem()));
             resyncResponse.setStatus(ResyncResponse.Status.Error);
-        } catch (JmsException e) {
+        } catch (RuntimeException e) {
             LOGGER.error("There was a problem enqueuing the selected message: {}", resyncRequest, e);
-            resyncResponse.setErrorMessage(String.format("There was a problem enqueuing the selected message: %s", resyncRequest.toString()));
+            resyncResponse.setErrorMessage(withContext(PROBLEM_ENQUEUING, resyncRequest.toString()));
             resyncResponse.setStatus(ResyncResponse.Status.Error);
         }
         return resyncResponse;
@@ -71,7 +83,7 @@ public class ResyncService {
     private JmsTemplate getDestination(final ResyncRequest resyncRequest) throws RuntimeException {
         ResyncConfiguration resyncConfiguration = resyncConfigurations.get(resyncRequest.getSystem());
         if (null == resyncConfiguration) {
-            throw new IllegalStateException(String.format("ResyncConfiguration for endSystem %s doesn't exist", resyncRequest.getSystem()));
+            throw new IllegalStateException(ResyncError.withContext("ResyncConfiguration for endSystem %s doesn't exist", resyncRequest.getSystem()));
         }
         return resyncConfigurations.get(resyncRequest.getSystem()).getBroker();
     }
