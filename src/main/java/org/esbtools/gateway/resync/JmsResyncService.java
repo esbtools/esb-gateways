@@ -20,15 +20,15 @@ public class JmsResyncService implements ResyncService {
     protected static final Logger LOGGER = LoggerFactory.getLogger(JmsResyncService.class);
 
 
-    protected ResyncConfiguration resyncConfiguration;
+    protected JmsResyncConfiguration jmsResyncConfiguration;
 
     @Autowired
-    public JmsResyncService(ResyncConfiguration resyncConfiguration) {
-        this.resyncConfiguration = resyncConfiguration;
+    public JmsResyncService(JmsResyncConfiguration jmsResyncConfiguration) {
+        this.jmsResyncConfiguration = jmsResyncConfiguration;
     }
 
     public String getSystemName() {
-        return resyncConfiguration.getEndSystem();
+        return jmsResyncConfiguration.getEndSystem();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class JmsResyncService implements ResyncService {
 
         try {
             LOGGER.info("Sending message {}", resyncRequest.toXML());
-            resyncConfiguration.getBroker().send(new MessageCreator() {
+            jmsResyncConfiguration.getBroker().send(new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     Message message = session.createTextMessage(resyncRequest.toXML());

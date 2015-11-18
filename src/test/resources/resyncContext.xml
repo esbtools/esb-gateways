@@ -15,7 +15,7 @@
         <constructor-arg index="0" ref="badHubSystemConfiguration" />
     </bean>
 
-    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
+    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.JmsResyncConfiguration">
         <constructor-arg index="0" value="GitHub" />
         <constructor-arg index="1" ref="amqJmsTemplate" />
         <constructor-arg index="2" value="resync" />
@@ -39,7 +39,7 @@
         <constructor-arg index="0" value="resync" />
     </bean>
 
-    <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
+    <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.JmsResyncConfiguration">
         <constructor-arg index="0" value="BadHub" />
         <constructor-arg index="1" ref="badAmqJmsTemplate" />
         <constructor-arg index="2" value="resync" />

@@ -4,17 +4,17 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ResyncConfiguration {
+public class JmsResyncConfiguration {
 
     private String endSystem;
     private JmsTemplate broker;
     private String resyncQueue;
 
-    public ResyncConfiguration() {
+    public JmsResyncConfiguration() {
 
     }
 
-    public ResyncConfiguration(String endSystem, JmsTemplate broker, String resyncQueue) {
+    public JmsResyncConfiguration(String endSystem, JmsTemplate broker, String resyncQueue) {
         this.endSystem = endSystem;
         this.broker = broker;
         this.resyncQueue = resyncQueue;
