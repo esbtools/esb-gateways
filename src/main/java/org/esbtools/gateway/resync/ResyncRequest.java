@@ -12,9 +12,6 @@ import java.util.List;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-/**
- * Created by dhaynes on 11/12/15.
- */
 @XmlRootElement(name="SyncRequest")
 public class ResyncRequest {
 

@@ -1,8 +1,5 @@
 package org.esbtools.gateway.resync;
 
-/**
- * Created by dhaynes on 11/12/15.
- */
 public class ResyncResponse {
 
     public enum Status {

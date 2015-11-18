@@ -12,9 +12,6 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by dhaynes on 11/12/15.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class ResyncServiceTest {

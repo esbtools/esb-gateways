@@ -3,9 +3,6 @@ package org.esbtools.gateway.resync;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by dhaynes on 11/12/15.
- */
 @Service
 public class ResyncConfiguration {
 

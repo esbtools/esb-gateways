@@ -8,9 +8,6 @@ import org.springframework.jms.core.JmsTemplate;
 import static org.junit.Assert.assertEquals;
 
 
-/**
- * Created by dhaynes on 11/13/15.
- */
 public class ResyncConfigurationTest {
 
     ResyncConfiguration resyncConfiguration;

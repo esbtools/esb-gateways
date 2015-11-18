@@ -13,10 +13,6 @@ import javax.jms.Message;
 import javax.jms.Session;
 import java.util.LinkedHashMap;
 
-/**
- * Created by dhaynes on 11/13/15.
- */
-
 @Service
 @Resource(name="resyncService")
 public class ResyncService {

@@ -9,9 +9,6 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by dhaynes on 11/12/15.
- */
 public class ResyncRequestTest {
 
     private ResyncRequest resyncRequest;
