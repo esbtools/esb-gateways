@@ -1,6 +1,9 @@
 package org.esbtools.gateway.resync;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.esbtools.gateway.resync.exception.IncompleteRequestException;
 
 import javax.xml.bind.JAXBContext;
@@ -77,6 +80,17 @@ public class ResyncRequest {
             throw new RuntimeException(e);
         }
         return thisXML.toString();
+    }
+
+    public String toJson() {
+        String thisJson;
+        try {
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            thisJson = ow.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return thisJson;
     }
 
     @Override

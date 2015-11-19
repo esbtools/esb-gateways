@@ -10,6 +10,7 @@ import org.esbtools.gateway.resync.service.ResyncService;
 import org.esbtools.gateway.resync.service.ResyncServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,47 +29,35 @@ public class ResyncGateway {
         this.resyncServiceRepository = resyncServiceRepository;
     }
 
-    @RequestMapping(value="/resync", method=RequestMethod.POST, produces="application/json")
+    @RequestMapping(value="/resync", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE, headers = "content-type=application/json")
     public ResponseEntity<ResyncResponse> resync(@RequestBody ResyncRequest resyncRequest) {
-        ResponseEntity<ResyncResponse> responseEntity;
-        try {
-            ResyncService resyncService = resyncServiceRepository.getBySystem(resyncRequest.getSystem());
-            ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
-            responseEntity = new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.OK);
-        } catch(InvalidSystemException e) {
-            responseEntity = invalidSystemExceptionHandler(e);
-        } catch (SystemConfigurationException e) {
-            responseEntity = systemConfigurationExceptionHandler(e);
-        } catch(IncompleteRequestException e) {
-            responseEntity = incompleteRequestExceptionHandler(e);
-        } catch(ResyncFailedException e) {
-            responseEntity = resyncFailedExceptionHandler(e);
-        }
-        return responseEntity;
+        ResyncService resyncService = resyncServiceRepository.getBySystem(resyncRequest.getSystem());
+        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
+        return new ResponseEntity<>(resyncResponse, HttpStatus.OK);
     }
 
     @ExceptionHandler(InvalidSystemException.class)
     private ResponseEntity<ResyncResponse> invalidSystemExceptionHandler (InvalidSystemException e) {
         ResyncResponse resyncResponse = new ResyncResponse(ResyncResponse.Status.Error, e.getMessage());
-        return new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(resyncResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(SystemConfigurationException.class)
     private ResponseEntity<ResyncResponse> systemConfigurationExceptionHandler (SystemConfigurationException e) {
         ResyncResponse resyncResponse = new ResyncResponse(ResyncResponse.Status.Error, e.getMessage());
-        return new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(resyncResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResyncFailedException.class)
     private ResponseEntity<ResyncResponse> resyncFailedExceptionHandler (ResyncFailedException e) {
         ResyncResponse resyncResponse = new ResyncResponse(ResyncResponse.Status.Error, e.getMessage());
-        return new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(resyncResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IncompleteRequestException.class)
     private ResponseEntity<ResyncResponse> incompleteRequestExceptionHandler (IncompleteRequestException e) {
         ResyncResponse resyncResponse = new ResyncResponse(ResyncResponse.Status.Error, e.getMessage());
-        return new ResponseEntity<ResyncResponse>(resyncResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(resyncResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
