@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by dhaynes on 11/13/15.
- */
 public class ResyncResponseTest {
 
     private ResyncResponse resyncResponse;

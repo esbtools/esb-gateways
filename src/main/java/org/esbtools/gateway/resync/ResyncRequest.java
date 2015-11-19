@@ -1,6 +1,11 @@
 package org.esbtools.gateway.resync;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import org.esbtools.gateway.resync.exception.IncompleteRequestException;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -9,12 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringWriter;
 import java.util.List;
 
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-/**
- * Created by dhaynes on 11/12/15.
- */
 @XmlRootElement(name="SyncRequest")
 public class ResyncRequest {
 
@@ -59,11 +61,9 @@ public class ResyncRequest {
         this.values = values;
     }
 
-    public boolean hasValuesForRequiredProperties() {
-        if(isNotBlank(entity) && isNotBlank(system) && isNotBlank(key) && isNotEmpty(values)) {
-            return true;
-        } else {
-            return false;
+    public void ensureRequiredPropertiesHaveValues() {
+        if(isBlank(entity) || isBlank(system) || isBlank(key) || isEmpty(values)) {
+            throw new IncompleteRequestException(this);
         }
     }
 
@@ -80,6 +80,17 @@ public class ResyncRequest {
             throw new RuntimeException(e);
         }
         return thisXML.toString();
+    }
+
+    public String toJson() {
+        String thisJson;
+        try {
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            thisJson = ow.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return thisJson;
     }
 
     @Override

@@ -7,17 +7,18 @@
 
     <context:property-placeholder location="classpath:broker.properties"/>
 
-    <bean id="resyncService" class="org.esbtools.gateway.resync.ResyncService" >
-        <property name="resyncConfigurations">
-            <map>
-                <entry key="GitHub"><ref bean="gitHubSystemConfiguration"/></entry>
-            </map>
-        </property>
+    <bean id="gitHubResyncService" class="org.esbtools.gateway.resync.service.JmsResyncService">
+        <constructor-arg ref="gitHubSystemConfiguration" />
     </bean>
 
-    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.ResyncConfiguration">
-        <property name="endSystem" value="GitHub" />
-        <property name="broker" ref="amqJmsTemplate" />
+    <bean id="badHubResyncService" class="org.esbtools.gateway.resync.service.JmsResyncService">
+        <constructor-arg ref="badHubSystemConfiguration" />
+    </bean>
+
+    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.service.JmsResyncConfiguration">
+        <constructor-arg index="0" value="GitHub" />
+        <constructor-arg index="1" ref="amqJmsTemplate" />
+        <constructor-arg index="2" value="resync" />
     </bean>
 
     <bean id="amqJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
@@ -36,6 +37,26 @@
 
     <bean id="defaultDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="resync" />
+    </bean>
+
+    <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.service.JmsResyncConfiguration">
+        <constructor-arg index="0" value="BadHub" />
+        <constructor-arg index="1" ref="badAmqJmsTemplate" />
+        <constructor-arg index="2" value="resync" />
+    </bean>
+
+    <bean id="badAmqJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="badPooledConnectionFactory" />
+        <property name="defaultDestination" ref="defaultDestination"/>
+    </bean>
+
+    <bean id="badPooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+        <property name="maxConnections" value="10" />
+        <property name="connectionFactory" >
+            <bean class="org.apache.activemq.ActiveMQSslConnectionFactory">
+                <property name="brokerURL" value="${badbroker.url}" />
+            </bean>
+        </property>
     </bean>
 
 </beans>
