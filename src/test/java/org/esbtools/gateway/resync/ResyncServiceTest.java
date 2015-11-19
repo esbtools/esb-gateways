@@ -7,10 +7,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -19,10 +20,12 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class ResyncServiceTest {
 
-    @Resource(name="gitHubResyncService")
+    @Autowired
+    @Qualifier("gitHubResyncService")
     private ResyncService resyncService;
 
-    @Resource(name="badHubResyncService")
+    @Autowired
+    @Qualifier("badHubResyncService")
     private ResyncService badResyncService;
 
     @Before
