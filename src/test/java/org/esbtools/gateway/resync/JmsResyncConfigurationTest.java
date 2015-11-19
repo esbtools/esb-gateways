@@ -1,5 +1,6 @@
 package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.resync.service.JmsResyncConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +17,7 @@ public class JmsResyncConfigurationTest {
     @Before
     public void setUp() throws Exception {
         jmsTemplate = new JmsTemplate();
-        jmsResyncConfiguration = new JmsResyncConfiguration();
-        jmsResyncConfiguration.setBroker(jmsTemplate);
-        jmsResyncConfiguration.setEndSystem("endSystem");
-        jmsResyncConfiguration.setResyncQueue("resyncQueue");
+        jmsResyncConfiguration = new JmsResyncConfiguration("endSystem", jmsTemplate, "resyncQueue");
     }
 
     @After

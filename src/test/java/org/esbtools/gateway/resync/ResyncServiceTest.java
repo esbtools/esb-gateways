@@ -1,5 +1,8 @@
 package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.resync.exception.IncompleteRequestException;
+import org.esbtools.gateway.resync.exception.ResyncFailedException;
+import org.esbtools.gateway.resync.service.ResyncService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,9 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
-import static org.esbtools.gateway.resync.ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT;
-import static org.esbtools.gateway.resync.ResyncError.PROBLEM_ENQUEUING;
-import static org.esbtools.gateway.resync.ResyncError.withContext;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,7 +36,7 @@ public class ResyncServiceTest {
     }
 
     @Test
-    public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() throws Exception {
+    public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
         resyncRequest.setSystem("GitHub");
@@ -48,65 +48,55 @@ public class ResyncServiceTest {
         assertEquals(null, resyncResponse.getErrorMessage());
     }
 
-    @Test
-    public void doesMissingEntityReturnErrorResponse() throws Exception {
+    @Test(expected = IncompleteRequestException.class)
+    public void doesMissingEntityResultInException() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setSystem("GitHub");
         resyncRequest.setKey("Login");
         resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(ALL_REQUIRED_VALUES_NOT_PRESENT, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
+        resyncService.resync(resyncRequest);
     }
 
-    @Test
-    public void doesMissingSystemReturnErrorResponse() throws Exception {
+    @Test(expected = IncompleteRequestException.class)
+    public void doesMissingSystemResultInException() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
         resyncRequest.setKey("Login");
         resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(ALL_REQUIRED_VALUES_NOT_PRESENT, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
+        resyncService.resync(resyncRequest);
     }
 
-    @Test
-    public void doesMissingKeyReturnErrorResponse() throws Exception {
+    @Test(expected = IncompleteRequestException.class)
+    public void doesMissingKeyResultInException() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
         resyncRequest.setSystem("GitHub");
         resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(ALL_REQUIRED_VALUES_NOT_PRESENT, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
+        resyncService.resync(resyncRequest);
     }
 
-    @Test
-    public void doesMissingValuesReturnErrorResponse() throws Exception {
+    @Test(expected = IncompleteRequestException.class)
+    public void doesMissingValuesResultInException() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
         resyncRequest.setSystem("GitHub");
         resyncRequest.setKey("Login");
 
-        ResyncResponse resyncResponse = resyncService.resync(resyncRequest);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(ALL_REQUIRED_VALUES_NOT_PRESENT, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
+        resyncService.resync(resyncRequest);
     }
 
-    @Test
-    public void doesServerErrorReturnErrorResponse() throws Exception {
+    @Test(expected = ResyncFailedException.class)
+    public void doesServerErrorResultInException() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
         resyncRequest.setSystem("BadHub");
         resyncRequest.setKey("Login");
         resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResyncResponse resyncResponse = badResyncService.resync(resyncRequest);
-        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(PROBLEM_ENQUEUING, resyncRequest.toString()), resyncResponse.getErrorMessage());
+        badResyncService.resync(resyncRequest);
     }
 
 }

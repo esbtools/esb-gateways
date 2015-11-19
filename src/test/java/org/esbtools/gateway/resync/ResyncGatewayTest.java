@@ -1,5 +1,7 @@
 package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.resync.controller.ResyncGateway;
+import org.esbtools.gateway.resync.service.ResyncErrorMessages;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 
-import static org.esbtools.gateway.resync.ResyncError.SYSTEM_NOT_CONFIGURED;
-import static org.esbtools.gateway.resync.ResyncError.withContext;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,7 +34,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() throws Exception {
+    public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("GitHub");
@@ -49,7 +49,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingEntityReturnBadRequestResponse() throws Exception {
+    public void doesMissingEntityReturnBadRequestResponse() {
         ResyncRequest request = new ResyncRequest();
         request.setSystem("GitHub");
         request.setKey("Login");
@@ -63,7 +63,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingSystemReturnBadRequestResponse() throws Exception {
+    public void doesMissingSystemReturnBadRequestResponse() {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setKey("Login");
@@ -77,7 +77,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingKeyReturnBadRequestResponse() throws Exception {
+    public void doesMissingKeyReturnBadRequestResponse() {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("GitHub");
@@ -91,7 +91,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesMissingValuesReturnBadRequestResponse() throws Exception {
+    public void doesMissingValuesReturnBadRequestResponse() {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("GitHub");
@@ -105,7 +105,7 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesSendingUnconfiguredSystemReturnErrorResponse() throws Exception {
+    public void doesSendingUnconfiguredSystemReturnErrorResponse() {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
         resyncRequest.setSystem("BitHub");
@@ -116,11 +116,10 @@ public class ResyncGatewayTest {
         ResyncResponse resyncResponse = responseEntity.getBody();
 
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
-        assertEquals(withContext(SYSTEM_NOT_CONFIGURED, resyncRequest.getSystem()), resyncResponse.getErrorMessage());
+        assertEquals(ResyncErrorMessages.systemNotConfigured("BitHub"), resyncResponse.getErrorMessage());
     }
 
-    @Test
-    public void doesServerErrorReturnInternalServerErrorResponse() throws Exception {
+    public void doesServerErrorReturnInternalServerErrorResponse() {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("BadHub");
@@ -132,5 +131,6 @@ public class ResyncGatewayTest {
 
         ResyncResponse resyncResponse = responseEntity.getBody();
         assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
+        assertEquals(ResyncErrorMessages.resyncFailed(request), resyncResponse.getErrorMessage());
     }
 }

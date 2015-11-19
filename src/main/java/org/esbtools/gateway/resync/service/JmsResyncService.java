@@ -1,5 +1,8 @@
-package org.esbtools.gateway.resync;
+package org.esbtools.gateway.resync.service;
 
+import org.esbtools.gateway.resync.ResyncRequest;
+import org.esbtools.gateway.resync.ResyncResponse;
+import org.esbtools.gateway.resync.exception.ResyncFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +13,10 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
-import static org.esbtools.gateway.resync.ResyncError.ALL_REQUIRED_VALUES_NOT_PRESENT;
-import static org.esbtools.gateway.resync.ResyncError.PROBLEM_ENQUEUING;
-import static org.esbtools.gateway.resync.ResyncError.withContext;
-
 @Service
 public class JmsResyncService implements ResyncService {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(JmsResyncService.class);
-
 
     protected JmsResyncConfiguration jmsResyncConfiguration;
 
@@ -33,24 +31,13 @@ public class JmsResyncService implements ResyncService {
 
     @Override
     public ResyncResponse resync(ResyncRequest resyncRequest) {
-        LOGGER.debug("{}", resyncRequest);
-
-        ResyncResponse resyncResponse = new ResyncResponse();
-
-        if (resyncRequest.hasValuesForRequiredProperties()) {
-            enqueue(resyncRequest, resyncResponse);
-        } else {
-            resyncResponse.setErrorMessage(ALL_REQUIRED_VALUES_NOT_PRESENT);
-            resyncResponse.setStatus(ResyncResponse.Status.Error);
-        }
-
-        LOGGER.info("{}", resyncResponse);
-        return resyncResponse;
+        LOGGER.info("{}", resyncRequest);
+        resyncRequest.ensureRequiredPropertiesHaveValues();
+        return enqueue(resyncRequest);
     }
 
-    private ResyncResponse enqueue(final ResyncRequest resyncRequest, ResyncResponse resyncResponse) {
-        LOGGER.debug("{}", resyncRequest);
-
+    private ResyncResponse enqueue(final ResyncRequest resyncRequest) {
+        ResyncResponse resyncResponse = new ResyncResponse();
         try {
             LOGGER.info("Sending message {}", resyncRequest.toXML());
             jmsResyncConfiguration.getBroker().send(new MessageCreator() {
@@ -62,12 +49,10 @@ public class JmsResyncService implements ResyncService {
             });
             resyncResponse.setStatus(ResyncResponse.Status.Success);
         } catch (RuntimeException e) {
-            LOGGER.error("There was a problem enqueuing the selected message: {}", resyncRequest, e);
-            resyncResponse.setErrorMessage(withContext(PROBLEM_ENQUEUING, resyncRequest.toString()));
-            resyncResponse.setStatus(ResyncResponse.Status.Error);
+            throw new ResyncFailedException(resyncRequest);
         }
+        LOGGER.info("{}", resyncResponse);
         return resyncResponse;
     }
-
 
 }

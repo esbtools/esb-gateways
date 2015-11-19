@@ -1,5 +1,6 @@
 package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.resync.exception.IncompleteRequestException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,7 +8,6 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ResyncRequestTest {
 
@@ -72,12 +72,12 @@ public class ResyncRequestTest {
     }
 
     @Test
-    public void testHasValuesForRequiredPropertiesReturns() throws Exception {
-        assertTrue(resyncRequest.hasValuesForRequiredProperties());
+    public void testHasValuesForRequiredPropertiesReturns() throws IncompleteRequestException {
+        resyncRequest.ensureRequiredPropertiesHaveValues();
     }
 
     @Test
-    public void testToString() throws Exception {
+    public void testToString() {
         assertEquals("ResyncRequest [entity=entity, system=system, key=key, values=[value1, value2]]", resyncRequest.toString());
     }
 

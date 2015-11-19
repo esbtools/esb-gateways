@@ -7,15 +7,15 @@
 
     <context:property-placeholder location="classpath:broker.properties"/>
 
-    <bean id="gitHubResyncService" class="org.esbtools.gateway.resync.JmsResyncService">
+    <bean id="gitHubResyncService" class="org.esbtools.gateway.resync.service.JmsResyncService">
         <constructor-arg ref="gitHubSystemConfiguration" />
     </bean>
 
-    <bean id="badHubResyncService" class="org.esbtools.gateway.resync.JmsResyncService">
+    <bean id="badHubResyncService" class="org.esbtools.gateway.resync.service.JmsResyncService">
         <constructor-arg ref="badHubSystemConfiguration" />
     </bean>
 
-    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.JmsResyncConfiguration">
+    <bean id="gitHubSystemConfiguration" class="org.esbtools.gateway.resync.service.JmsResyncConfiguration">
         <constructor-arg index="0" value="GitHub" />
         <constructor-arg index="1" ref="amqJmsTemplate" />
         <constructor-arg index="2" value="resync" />
@@ -39,7 +39,7 @@
         <constructor-arg index="0" value="resync" />
     </bean>
 
-    <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.JmsResyncConfiguration">
+    <bean id="badHubSystemConfiguration" class="org.esbtools.gateway.resync.service.JmsResyncConfiguration">
         <constructor-arg index="0" value="BadHub" />
         <constructor-arg index="1" ref="badAmqJmsTemplate" />
         <constructor-arg index="2" value="resync" />

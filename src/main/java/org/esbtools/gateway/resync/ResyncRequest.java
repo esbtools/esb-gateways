@@ -1,6 +1,8 @@
 package org.esbtools.gateway.resync;
 
 
+import org.esbtools.gateway.resync.exception.IncompleteRequestException;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -9,8 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringWriter;
 import java.util.List;
 
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @XmlRootElement(name="SyncRequest")
 public class ResyncRequest {
@@ -56,11 +58,9 @@ public class ResyncRequest {
         this.values = values;
     }
 
-    public boolean hasValuesForRequiredProperties() {
-        if(isNotBlank(entity) && isNotBlank(system) && isNotBlank(key) && isNotEmpty(values)) {
-            return true;
-        } else {
-            return false;
+    public void ensureRequiredPropertiesHaveValues() {
+        if(isBlank(entity) || isBlank(system) || isBlank(key) || isEmpty(values)) {
+            throw new IncompleteRequestException(this);
         }
     }
 

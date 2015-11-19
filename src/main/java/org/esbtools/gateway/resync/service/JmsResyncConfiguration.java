@@ -1,4 +1,4 @@
-package org.esbtools.gateway.resync;
+package org.esbtools.gateway.resync.service;
 
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
