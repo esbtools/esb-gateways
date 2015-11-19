@@ -29,21 +29,21 @@ public class ResyncErrorMessagesTest {
 
     @Test
     public void testInvalidSystem() throws Exception {
-        Assert.assertEquals(ResyncErrorMessages.INVALID_SYSTEM + "system", ResyncErrorMessages.invalidSystem("system"));
+        Assert.assertEquals("There is no resync configuration for this system: " + "system", ResyncErrorMessages.invalidSystem("system"));
     }
 
     @Test
     public void testIncompleteRequest() throws Exception {
-        assertEquals(ResyncErrorMessages.INCOMPLETE_REQUEST + resyncRequest, ResyncErrorMessages.incompleteRequest(resyncRequest));
+        assertEquals("One or more required values was not present: " + resyncRequest, ResyncErrorMessages.incompleteRequest(resyncRequest));
     }
 
     @Test
     public void testSystemNotConfigured() throws Exception {
-        assertEquals(ResyncErrorMessages.SYSTEM_NOT_CONFIGURED + "system", ResyncErrorMessages.systemNotConfigured("system"));
+        assertEquals("One or more systems is not configured correctly: " + "system", ResyncErrorMessages.systemNotConfigured("system"));
     }
 
     @Test
     public void testResyncFailed() throws Exception {
-        assertEquals(ResyncErrorMessages.RESYNC_FAILED + resyncRequest, ResyncErrorMessages.resyncFailed(resyncRequest));
+        assertEquals("There was a problem resyncing the selected message: " + resyncRequest, ResyncErrorMessages.resyncFailed(resyncRequest));
     }
 }
