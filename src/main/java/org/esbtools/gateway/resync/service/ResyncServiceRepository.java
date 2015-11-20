@@ -23,7 +23,7 @@ public class ResyncServiceRepository {
             throw new InvalidSystemException(system);
         } else {
             for (ResyncService resyncService : resyncServices) {
-                if (system.equals(resyncService.getSystemName())) {
+                if (system.equalsIgnoreCase(resyncService.getSystemName())) {
                     return resyncService;
                 }
             }
