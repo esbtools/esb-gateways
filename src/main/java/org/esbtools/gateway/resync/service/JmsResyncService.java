@@ -49,6 +49,7 @@ public class JmsResyncService implements ResyncService {
             });
             resyncResponse.setStatus(ResyncResponse.Status.Success);
         } catch (RuntimeException e) {
+            LOGGER.error("An error occurred when enqueuing the resync message: {}", resyncRequest, e);
             throw new ResyncFailedException(resyncRequest);
         }
         LOGGER.info("{}", resyncResponse);
