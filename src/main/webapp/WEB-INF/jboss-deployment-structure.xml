@@ -2,6 +2,7 @@
     <deployment>
         <dependencies>
             <module name="org.esbtools.gateway.resync"/>
+            <module name="oracle.aq" optional="TRUE" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
