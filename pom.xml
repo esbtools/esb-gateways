@@ -286,18 +286,6 @@
         </profile>
         <profile>
             <id>rpm</id>
-            <dependencies>
-                <dependency>
-                    <groupId>oracle</groupId>
-                    <artifactId>aqapi13</artifactId>
-                    <version>${oracle.aq.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>oracle</groupId>
-                    <artifactId>ojdbc6</artifactId>
-                    <version>${oracle.jdbc.version}</version>
-                </dependency>
-            </dependencies>
             <!-- RPM packing -->
             <build>
                 <plugins>
