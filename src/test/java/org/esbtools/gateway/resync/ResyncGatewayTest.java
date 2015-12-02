@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,18 +42,17 @@ public class ResyncGatewayTest {
     }
 
     @Test
-    public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() {
+    public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() throws Exception {
         ResyncRequest request = new ResyncRequest();
         request.setEntity("User");
         request.setSystem("GitHub");
         request.setKey("Login");
         request.setValues(Arrays.asList("derek63","dhaynes"));
 
-        ResponseEntity<ResyncResponse> responseEntity = resyncGateway.resync(request);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-
-        ResyncResponse resyncResponse = responseEntity.getBody();
-        assertEquals(ResyncResponse.Status.Success, resyncResponse.getStatus());
+        mockMvc.perform(post("/resync").content(request.toJson()).contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json(successfulResponse()));
     }
 
     @Test
@@ -138,6 +134,10 @@ public class ResyncGatewayTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(resyncFailed(resyncRequest)));
+    }
+
+    private String successfulResponse() {
+        return new ResyncResponse(ResyncResponse.Status.Success, null).toJson();
     }
 
     private String incompleteRequestResponse(ResyncRequest resyncRequest) {
