@@ -140,7 +140,7 @@ public class ResyncGatewayTest {
                 .andExpect(content().json(systemNotConfigured("BitHub")));
     }
 
-
+    @Test
     public void doesServerErrorReturnInternalServerErrorResponse() throws Exception {
         ResyncRequest resyncRequest = new ResyncRequest();
         resyncRequest.setEntity("User");
@@ -149,7 +149,7 @@ public class ResyncGatewayTest {
         resyncRequest.setValues(Arrays.asList("derek63","dhaynes"));
 
         mockMvc.perform(post("/resync").content(resyncRequest.toJson()).contentType("application/json"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(resyncFailed(resyncRequest)));
     }
