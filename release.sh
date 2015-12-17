@@ -1,6 +1,3 @@
-#!/bin/sh
-
-
 RELEASE_VERSION=$1
 DEVEL_VERSION=$2
 
@@ -12,7 +9,7 @@ fi
 
 # prepare and verify state
 git fetch --all
-rm -rf ~/.m2/repository/org/esbtools/message/admin
+rm -rf ~/.m2/repository/org/esbtools/
 
 BRANCH=`git branch | grep ^* | awk '{print $2}'`
 
@@ -32,7 +29,7 @@ if [ $MERGE_BASE != $HEAD_HASH ]; then
     exit 1
 fi
 
-# update to non-snapshot versions of lightblue dependencies and commit
+# update to non-snapshot versions of esbtools dependencies and commit
 mvn versions:update-properties -DallowSnapshots=false
 git commit -a -m "Updated versions to non snapshot"
 
@@ -49,4 +46,10 @@ git push origin master --tags
 # perform release
 mvn release:perform -P release || exit
 
+# update to latest esbtools snapshot dependencies
+mvn versions:use-latest-snapshots versions:update-properties -Dincludes=*esbtools* -DallowSnapshots=true
+git commit -m "Updated to latest snapshot dependencies"
+git push origin master
+
+# deploy updated snapshots
 mvn clean deploy
