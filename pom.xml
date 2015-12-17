@@ -10,7 +10,7 @@
     <groupId>org.esbtools.gateway.resync</groupId>
     <artifactId>esb-resync-gateway</artifactId>
     <packaging>war</packaging>
-    <version>1.0.0</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>esb-resync-gateway: ${project.groupId}|${project.artifactId}</name>
     <description>ESB Resync Gateway</description>
     <licenses>
@@ -24,7 +24,7 @@
         <connection>scm:git:https://github.com/esbtools/esb-resync-gateway.git</connection>
         <developerConnection>scm:git:git@github.com:esbtools/esb-resync-gateway.git</developerConnection>
         <url>https://github.com/esbtools/esb-resync-gateway</url>
-        <tag>V1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
