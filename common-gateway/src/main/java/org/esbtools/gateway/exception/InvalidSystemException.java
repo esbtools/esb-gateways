@@ -16,12 +16,23 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.esbtools.gateway.resync.exception;
+package org.esbtools.gateway.exception;
 
-import org.esbtools.gateway.resync.service.ResyncErrorMessages;
+import org.esbtools.gateway.resubmit.ResubmitRequest;
+import org.esbtools.gateway.resync.ResyncRequest;
 
-public class SystemConfigurationException extends RuntimeException {
-    public SystemConfigurationException(String unconfiguredSystem){
-        super(ResyncErrorMessages.systemNotConfigured(unconfiguredSystem));
+public class InvalidSystemException extends RuntimeException {
+
+    public InvalidSystemException(String system){
+        super(GatewayErrorMessages.invalidSystem(system));
     }
+
+    public InvalidSystemException(ResubmitRequest resubmitRequest){
+        super(GatewayErrorMessages.invalidSystem(resubmitRequest));
+    }
+
+    public InvalidSystemException(ResyncRequest resyncRequest){
+        super(GatewayErrorMessages.invalidSystem(resyncRequest));
+    }
+
 }

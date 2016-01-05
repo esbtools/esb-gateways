@@ -18,7 +18,8 @@
  */
 package org.esbtools.gateway.resubmit;
 
-import org.esbtools.gateway.resubmit.exception.IncompleteRequestException;
+import org.esbtools.gateway.resubmit.ResubmitRequest;
+import org.esbtools.gateway.exception.IncompleteRequestException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,13 +103,13 @@ public class ResubmitRequestTest {
     @Test
     public void testToXml() throws Exception {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<SyncRequest>\n" +
+                "<ResubmitRequest>\n" +
                 "    <EntityName>entity</EntityName>\n" +
                 "    <KeyName>key</KeyName>\n" +
                 "    <System>system</System>\n" +
                 "    <KeyValue>value1</KeyValue>\n" +
                 "    <KeyValue>value2</KeyValue>\n" +
-                "</SyncRequest>\n", resubmitRequest.toXML());
+                "</ResubmitRequest>\n", resubmitRequest.toXML());
     }
 
 }

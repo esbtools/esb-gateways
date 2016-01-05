@@ -18,8 +18,8 @@
  */
 package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.exception.GatewayErrorMessages;
 import org.esbtools.gateway.resync.controller.ResyncGateway;
-import org.esbtools.gateway.resync.service.ResyncErrorMessages;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -159,18 +159,18 @@ public class ResyncGatewayTest {
     }
 
     private String incompleteRequestResponse(ResyncRequest resyncRequest) {
-        return new ResyncResponse(ResyncResponse.Status.Error, ResyncErrorMessages.incompleteRequest(resyncRequest)).toJson();
+        return new ResyncResponse(ResyncResponse.Status.Error, GatewayErrorMessages.incompleteRequest(resyncRequest)).toJson();
     }
 
     private String invalidSystem(String systemName) {
-        return new ResyncResponse(ResyncResponse.Status.Error, ResyncErrorMessages.invalidSystem(systemName)).toJson();
+        return new ResyncResponse(ResyncResponse.Status.Error, GatewayErrorMessages.invalidSystem(systemName)).toJson();
     }
 
     private String systemNotConfigured(String systemName) {
-        return new ResyncResponse(ResyncResponse.Status.Error, ResyncErrorMessages.systemNotConfigured(systemName)).toJson();
+        return new ResyncResponse(ResyncResponse.Status.Error, GatewayErrorMessages.systemNotConfigured(systemName)).toJson();
     }
 
     private String resyncFailed(ResyncRequest resyncRequest) {
-        return new ResyncResponse(ResyncResponse.Status.Error, ResyncErrorMessages.resyncFailed(resyncRequest)).toJson();
+        return new ResyncResponse(ResyncResponse.Status.Error, GatewayErrorMessages.resyncFailed(resyncRequest)).toJson();
     }
 }

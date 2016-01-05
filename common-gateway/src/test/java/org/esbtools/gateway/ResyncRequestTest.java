@@ -18,7 +18,8 @@
  */
 package org.esbtools.gateway.resync;
 
-import org.esbtools.gateway.resync.exception.IncompleteRequestException;
+import org.esbtools.gateway.resync.ResyncRequest;
+import org.esbtools.gateway.exception.IncompleteRequestException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

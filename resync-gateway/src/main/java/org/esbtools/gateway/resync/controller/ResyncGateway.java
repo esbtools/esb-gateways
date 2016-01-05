@@ -20,10 +20,10 @@ package org.esbtools.gateway.resync.controller;
 
 import org.esbtools.gateway.resync.ResyncRequest;
 import org.esbtools.gateway.resync.ResyncResponse;
-import org.esbtools.gateway.resync.exception.IncompleteRequestException;
-import org.esbtools.gateway.resync.exception.InvalidSystemException;
-import org.esbtools.gateway.resync.exception.ResyncFailedException;
-import org.esbtools.gateway.resync.exception.SystemConfigurationException;
+import org.esbtools.gateway.exception.IncompleteRequestException;
+import org.esbtools.gateway.exception.InvalidSystemException;
+import org.esbtools.gateway.exception.ResyncFailedException;
+import org.esbtools.gateway.exception.SystemConfigurationException;
 import org.esbtools.gateway.resync.service.ResyncService;
 import org.esbtools.gateway.resync.service.ResyncServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/")

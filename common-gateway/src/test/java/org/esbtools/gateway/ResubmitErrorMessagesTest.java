@@ -18,7 +18,8 @@
  */
 package org.esbtools.gateway.resubmit;
 
-import org.esbtools.gateway.resubmit.service.ResubmitErrorMessages;
+import org.esbtools.gateway.resubmit.ResubmitRequest;
+import org.esbtools.gateway.exception.GatewayErrorMessages;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,21 +48,21 @@ public class ResubmitErrorMessagesTest {
 
     @Test
     public void testInvalidSystem() throws Exception {
-        Assert.assertEquals("There is no resubmit configuration for this system: " + "system", ResubmitErrorMessages.invalidSystem("system"));
+        Assert.assertEquals("There is no resubmit configuration for this system: " + "system", GatewayErrorMessages.invalidSystem(resubmitRequest));
     }
 
     @Test
     public void testIncompleteRequest() throws Exception {
-        assertEquals("One or more required values was not present: " + resubmitRequest, ResubmitErrorMessages.incompleteRequest(resubmitRequest));
+        assertEquals("One or more required values was not present: " + resubmitRequest, GatewayErrorMessages.incompleteRequest(resubmitRequest));
     }
 
     @Test
     public void testSystemNotConfigured() throws Exception {
-        assertEquals("One or more systems is not configured correctly: " + "system", ResubmitErrorMessages.systemNotConfigured("system"));
+        assertEquals("One or more systems is not configured correctly: " + "system", GatewayErrorMessages.systemNotConfigured("system"));
     }
 
     @Test
     public void testResubmitFailed() throws Exception {
-        assertEquals("There was a problem resubmiting the selected message: " + resubmitRequest, ResubmitErrorMessages.resubmitFailed(resubmitRequest));
+        assertEquals("There was a problem resubmiting the selected message: " + resubmitRequest, GatewayErrorMessages.resubmitFailed(resubmitRequest));
     }
 }

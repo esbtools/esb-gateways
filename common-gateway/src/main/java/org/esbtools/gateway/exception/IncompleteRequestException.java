@@ -16,15 +16,19 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.esbtools.gateway.resubmit.exception;
+package org.esbtools.gateway.exception;
 
 import org.esbtools.gateway.resubmit.ResubmitRequest;
-import org.esbtools.gateway.resubmit.service.ResubmitErrorMessages;
+import org.esbtools.gateway.resync.ResyncRequest;
 
 public class IncompleteRequestException extends RuntimeException {
 
     public IncompleteRequestException(ResubmitRequest resubmitRequest){
-        super(ResubmitErrorMessages.incompleteRequest(resubmitRequest));
+        super(GatewayErrorMessages.incompleteRequest(resubmitRequest));
+    }
+
+    public IncompleteRequestException(ResyncRequest resyncRequest){
+        super(GatewayErrorMessages.incompleteRequest(resyncRequest));
     }
 
 }

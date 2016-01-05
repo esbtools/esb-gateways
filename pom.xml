@@ -73,6 +73,7 @@
         </developer>
     </developers>
     <modules>
+        <module>common-gateway</module>
         <module>resync-gateway</module>
         <module>resubmit-gateway</module>
     </modules>

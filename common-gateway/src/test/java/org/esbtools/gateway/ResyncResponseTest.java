@@ -16,54 +16,55 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.esbtools.gateway.resubmit;
+package org.esbtools.gateway.resync;
 
+import org.esbtools.gateway.resync.ResyncResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ResubmitResponseTest {
+public class ResyncResponseTest {
 
-    private ResubmitResponse resubmitResponse;
+    private ResyncResponse resyncResponse;
 
     @Before
     public void setUp() throws Exception {
-        resubmitResponse = new ResubmitResponse();
-        resubmitResponse.setStatus(ResubmitResponse.Status.Error);
-        resubmitResponse.setErrorMessage("error");
+        resyncResponse = new ResyncResponse();
+        resyncResponse.setStatus(ResyncResponse.Status.Error);
+        resyncResponse.setErrorMessage("error");
     }
 
     @After
     public void tearDown() throws Exception {
-        resubmitResponse = null;
+        resyncResponse = null;
     }
 
     @Test
     public void testGetStatus() throws Exception {
-        assertEquals(ResubmitResponse.Status.Error, resubmitResponse.getStatus());
+        assertEquals(ResyncResponse.Status.Error, resyncResponse.getStatus());
     }
 
     @Test
     public void testSetStatus() throws Exception {
-        resubmitResponse.setStatus(ResubmitResponse.Status.Success);
-        assertEquals(ResubmitResponse.Status.Success, resubmitResponse.getStatus());
+        resyncResponse.setStatus(ResyncResponse.Status.Success);
+        assertEquals(ResyncResponse.Status.Success, resyncResponse.getStatus());
     }
 
     @Test
     public void testGetErrorMessage() throws Exception {
-        assertEquals("error", resubmitResponse.getErrorMessage());
+        assertEquals("error", resyncResponse.getErrorMessage());
     }
 
     @Test
     public void testSetErrorMessage() throws Exception {
-        resubmitResponse.setErrorMessage("error1");
-        assertEquals("error1", resubmitResponse.getErrorMessage());
+        resyncResponse.setErrorMessage("error1");
+        assertEquals("error1", resyncResponse.getErrorMessage());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("ResubmitResponse [status=Error, errorMessage=error]", resubmitResponse.toString());
+        assertEquals("ResyncResponse [status=Error, errorMessage=error]", resyncResponse.toString());
     }
 }

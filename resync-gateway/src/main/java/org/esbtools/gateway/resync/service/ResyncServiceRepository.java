@@ -19,8 +19,8 @@
 package org.esbtools.gateway.resync.service;
 
 import org.apache.commons.lang3.StringUtils;
-import org.esbtools.gateway.resync.exception.InvalidSystemException;
-import org.esbtools.gateway.resync.exception.SystemConfigurationException;
+import org.esbtools.gateway.exception.InvalidSystemException;
+import org.esbtools.gateway.exception.SystemConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

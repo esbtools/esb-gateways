@@ -22,7 +22,7 @@ package org.esbtools.gateway.resubmit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.esbtools.gateway.resubmit.exception.IncompleteRequestException;
+import org.esbtools.gateway.exception.IncompleteRequestException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -35,7 +35,7 @@ import java.util.List;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-@XmlRootElement(name="SyncRequest")
+@XmlRootElement(name="ResubmitRequest")
 public class ResubmitRequest {
 
     private String entity;

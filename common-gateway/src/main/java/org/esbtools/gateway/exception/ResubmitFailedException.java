@@ -16,12 +16,14 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.esbtools.gateway.resubmit.exception;
+package org.esbtools.gateway.exception;
 
-import org.esbtools.gateway.resubmit.service.ResubmitErrorMessages;
+import org.esbtools.gateway.resubmit.ResubmitRequest;
 
-public class SystemConfigurationException extends RuntimeException {
-    public SystemConfigurationException(String unconfiguredSystem){
-        super(ResubmitErrorMessages.systemNotConfigured(unconfiguredSystem));
+public class ResubmitFailedException extends RuntimeException {
+
+    public ResubmitFailedException(ResubmitRequest failedResubmitRequest){
+        super(GatewayErrorMessages.resubmitFailed(failedResubmitRequest));
     }
+
 }

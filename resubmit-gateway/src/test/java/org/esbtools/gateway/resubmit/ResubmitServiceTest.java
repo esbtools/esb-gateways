@@ -18,8 +18,8 @@
  */
 package org.esbtools.gateway.resubmit;
 
-import org.esbtools.gateway.resubmit.exception.IncompleteRequestException;
-import org.esbtools.gateway.resubmit.exception.ResubmitFailedException;
+import org.esbtools.gateway.exception.IncompleteRequestException;
+import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.esbtools.gateway.resubmit.service.ResubmitService;
 import org.junit.After;
 import org.junit.Before;

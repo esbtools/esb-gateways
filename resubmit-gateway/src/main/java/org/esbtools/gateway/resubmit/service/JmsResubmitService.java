@@ -20,7 +20,7 @@ package org.esbtools.gateway.resubmit.service;
 
 import org.esbtools.gateway.resubmit.ResubmitRequest;
 import org.esbtools.gateway.resubmit.ResubmitResponse;
-import org.esbtools.gateway.resubmit.exception.ResubmitFailedException;
+import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

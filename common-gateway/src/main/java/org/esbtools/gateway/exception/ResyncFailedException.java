@@ -16,14 +16,14 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.esbtools.gateway.resync.exception;
+package org.esbtools.gateway.exception;
 
-import org.esbtools.gateway.resync.service.ResyncErrorMessages;
+import org.esbtools.gateway.resync.ResyncRequest;
 
-public class InvalidSystemException extends RuntimeException {
+public class ResyncFailedException extends RuntimeException {
 
-    public InvalidSystemException(String system){
-        super(ResyncErrorMessages.invalidSystem(system));
+    public ResyncFailedException(ResyncRequest failedResyncRequest){
+        super(GatewayErrorMessages.resyncFailed(failedResyncRequest));
     }
 
 }

@@ -18,7 +18,8 @@
  */
 package org.esbtools.gateway.resync;
 
-import org.esbtools.gateway.resync.service.ResyncErrorMessages;
+import org.esbtools.gateway.resync.ResyncRequest;
+import org.esbtools.gateway.exception.GatewayErrorMessages;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,21 +48,21 @@ public class ResyncErrorMessagesTest {
 
     @Test
     public void testInvalidSystem() throws Exception {
-        Assert.assertEquals("There is no resync configuration for this system: " + "system", ResyncErrorMessages.invalidSystem("system"));
+        Assert.assertEquals("There is no resync configuration for this system: " + "system", GatewayErrorMessages.invalidSystem(resyncRequest));
     }
 
     @Test
     public void testIncompleteRequest() throws Exception {
-        assertEquals("One or more required values was not present: " + resyncRequest, ResyncErrorMessages.incompleteRequest(resyncRequest));
+        assertEquals("One or more required values was not present: " + resyncRequest, GatewayErrorMessages.incompleteRequest(resyncRequest));
     }
 
     @Test
     public void testSystemNotConfigured() throws Exception {
-        assertEquals("One or more systems is not configured correctly: " + "system", ResyncErrorMessages.systemNotConfigured("system"));
+        assertEquals("One or more systems is not configured correctly: " + "system", GatewayErrorMessages.systemNotConfigured("system"));
     }
 
     @Test
     public void testResyncFailed() throws Exception {
-        assertEquals("There was a problem resyncing the selected message: " + resyncRequest, ResyncErrorMessages.resyncFailed(resyncRequest));
+        assertEquals("There was a problem resyncing the selected message: " + resyncRequest, GatewayErrorMessages.resyncFailed(resyncRequest));
     }
 }

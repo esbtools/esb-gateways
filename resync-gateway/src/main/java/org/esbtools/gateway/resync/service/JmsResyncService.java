@@ -20,7 +20,7 @@ package org.esbtools.gateway.resync.service;
 
 import org.esbtools.gateway.resync.ResyncRequest;
 import org.esbtools.gateway.resync.ResyncResponse;
-import org.esbtools.gateway.resync.exception.ResyncFailedException;
+import org.esbtools.gateway.exception.ResyncFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
