@@ -32,25 +32,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringWriter;
 import java.util.List;
 
-import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @XmlRootElement(name="ResubmitRequest")
 public class ResubmitRequest {
 
-    private String entity;
     private String system;
-    private String key;
-    private List<String> values;
-
-    @XmlElement(name="EntityName")
-    public String getEntity() {
-        return entity;
-    }
-
-    public void setEntity(String entity) {
-        this.entity = entity;
-    }
+    private String payload;
+    private List<String> headers;
 
     @XmlElement(name="System")
     public String getSystem() {
@@ -61,26 +50,26 @@ public class ResubmitRequest {
         this.system = system;
     }
 
-    @XmlElement(name="KeyName")
-    public String getKey() {
-        return key;
+    @XmlElement(name="Payload")
+    public String getPayload() {
+        return payload;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 
-    @XmlElement( name="KeyValue" )
-    public List<String> getValues() {
-        return values;
+    @XmlElement( name="Header" )
+    public List<String> getHeaders() {
+        return headers;
     }
 
-    public void setValues(List<String> values) {
-        this.values = values;
+    public void setHeaders(List<String> headers) {
+        this.headers = headers;
     }
 
     public void ensureRequiredPropertiesHaveValues() {
-        if(isBlank(entity) || isBlank(system) || isBlank(key) || isEmpty(values)) {
+        if(isBlank(system) || isBlank(payload)) {
             throw new IncompleteRequestException(this);
         }
     }
@@ -113,6 +102,6 @@ public class ResubmitRequest {
 
     @Override
     public String toString() {
-        return String.format("ResubmitRequest [entity=%s, system=%s, key=%s, values=%s]", entity, system, key, values);
+        return String.format("ResubmitRequest [system=%s, payload=%s, headers=%s]", system, payload, headers);
     }
 }

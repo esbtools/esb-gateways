@@ -50,7 +50,6 @@ public class ResyncGatewayTest {
 
     @Before
     public void setupTest() {
-        //MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(resyncGateway).build();
     }
 

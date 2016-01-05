@@ -18,7 +18,6 @@
  */
 package org.esbtools.gateway.resubmit;
 
-import org.esbtools.gateway.resubmit.ResubmitRequest;
 import org.esbtools.gateway.exception.IncompleteRequestException;
 import org.junit.After;
 import org.junit.Before;
@@ -35,26 +34,14 @@ public class ResubmitRequestTest {
     @Before
     public void setUp() throws Exception {
         resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("entity");
         resubmitRequest.setSystem("system");
-        resubmitRequest.setKey("key");
-        resubmitRequest.setValues(Arrays.asList("value1","value2"));
+        resubmitRequest.setPayload("<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>");
+        resubmitRequest.setHeaders(Arrays.asList("header1","header2"));
     }
 
     @After
     public void tearDown() throws Exception {
         resubmitRequest = null;
-    }
-
-    @Test
-    public void testGetEntity() throws Exception {
-        assertEquals("entity", resubmitRequest.getEntity());
-    }
-
-    @Test
-    public void testSetEntity() throws Exception {
-        resubmitRequest.setEntity("entity1");
-        assertEquals("entity1", resubmitRequest.getEntity());
     }
 
     @Test
@@ -70,24 +57,24 @@ public class ResubmitRequestTest {
 
     @Test
     public void testGetKey() throws Exception {
-        assertEquals("key", resubmitRequest.getKey());
+        assertEquals("<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>", resubmitRequest.getPayload());
     }
 
     @Test
     public void testSetKey() throws Exception {
-        resubmitRequest.setKey("key1");
-        assertEquals("key1", resubmitRequest.getKey());
+        resubmitRequest.setPayload("payload1");
+        assertEquals("payload1", resubmitRequest.getPayload());
     }
 
     @Test
     public void testGetValues() throws Exception {
-        assertEquals(Arrays.asList("value1","value2"), resubmitRequest.getValues());
+        assertEquals(Arrays.asList("header1","header2"), resubmitRequest.getHeaders());
     }
 
     @Test
     public void testSetValues() throws Exception {
-        resubmitRequest.setValues(Arrays.asList("value3","value4"));
-        assertEquals(Arrays.asList("value3","value4"), resubmitRequest.getValues());
+        resubmitRequest.setHeaders(Arrays.asList("header3","header4"));
+        assertEquals(Arrays.asList("header3","header4"), resubmitRequest.getHeaders());
     }
 
     @Test
@@ -97,18 +84,17 @@ public class ResubmitRequestTest {
 
     @Test
     public void testToString() {
-        assertEquals("ResubmitRequest [entity=entity, system=system, key=key, values=[value1, value2]]", resubmitRequest.toString());
+        assertEquals("ResubmitRequest [system=system, payload=<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>, headers=[header1, header2]]", resubmitRequest.toString());
     }
 
     @Test
     public void testToXml() throws Exception {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<ResubmitRequest>\n" +
-                "    <EntityName>entity</EntityName>\n" +
-                "    <KeyName>key</KeyName>\n" +
+                "    <Header>header1</Header>\n" +
+                "    <Header>header2</Header>\n" +
+                "    <Payload>&lt;Payload&gt;&lt;Name&gt;Name&lt;/Name&gt;&lt;Location&gt;&lt;City&gt;Berlin&lt;/City&gt;&lt;/Location&gt;&lt;/Payload&gt;</Payload>\n" +
                 "    <System>system</System>\n" +
-                "    <KeyValue>value1</KeyValue>\n" +
-                "    <KeyValue>value2</KeyValue>\n" +
                 "</ResubmitRequest>\n", resubmitRequest.toXML());
     }
 

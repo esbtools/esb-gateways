@@ -18,7 +18,6 @@
  */
 package org.esbtools.gateway.resubmit;
 
-import org.esbtools.gateway.resubmit.ResubmitRequest;
 import org.esbtools.gateway.exception.GatewayErrorMessages;
 import org.junit.After;
 import org.junit.Assert;
@@ -35,10 +34,9 @@ public class ResubmitErrorMessagesTest {
     @Before
     public void setUp() {
         resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("entity");
         resubmitRequest.setSystem("system");
-        resubmitRequest.setKey("key");
-        resubmitRequest.setValues(Arrays.asList("value1","value2"));
+        resubmitRequest.setPayload("key");
+        resubmitRequest.setHeaders(Arrays.asList("value1","value2"));
     }
 
     @After

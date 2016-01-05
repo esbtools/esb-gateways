@@ -50,7 +50,6 @@ public class ResubmitGatewayTest {
 
     @Before
     public void setupTest() {
-        //MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(resubmitGateway).build();
     }
 
@@ -62,10 +61,9 @@ public class ResubmitGatewayTest {
     @Test
     public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() throws Exception {
         ResubmitRequest request = new ResubmitRequest();
-        request.setEntity("User");
         request.setSystem("GitHub");
-        request.setKey("Login");
-        request.setValues(Arrays.asList("derek63","dhaynes"));
+        request.setPayload("Login");
+        request.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
                 .andExpect(status().isOk())
@@ -74,25 +72,10 @@ public class ResubmitGatewayTest {
     }
 
     @Test
-    public void doesMissingEntityReturnBadRequestResponse() throws Exception {
-
-        ResubmitRequest request = new ResubmitRequest();
-        request.setSystem("GitHub");
-        request.setKey("Login");
-        request.setValues(Arrays.asList("derek63","dhaynes"));
-
-        mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(content().json(incompleteRequestResponse(request)));
-    }
-
-    @Test
     public void doesMissingSystemReturnBadRequestResponse() throws Exception {
         ResubmitRequest request = new ResubmitRequest();
-        request.setEntity("User");
-        request.setKey("Login");
-        request.setValues(Arrays.asList("derek63","dhaynes"));
+        request.setPayload("Login");
+        request.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
                 .andExpect(status().isBadRequest())
@@ -103,9 +86,8 @@ public class ResubmitGatewayTest {
     @Test
     public void doesMissingKeyReturnBadRequestResponse() throws Exception {
         ResubmitRequest request = new ResubmitRequest();
-        request.setEntity("User");
         request.setSystem("GitHub");
-        request.setValues(Arrays.asList("derek63","dhaynes"));
+        request.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
                 .andExpect(status().isBadRequest())
@@ -114,25 +96,23 @@ public class ResubmitGatewayTest {
     }
 
     @Test
-    public void doesMissingValuesReturnBadRequestResponse() throws Exception {
+    public void doesMissingHeadersReturnOkResponse() throws Exception {
         ResubmitRequest request = new ResubmitRequest();
-        request.setEntity("User");
         request.setSystem("GitHub");
-        request.setKey("Login");
+        request.setPayload("Login");
 
         mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(content().json(incompleteRequestResponse(request)));
+                .andExpect(content().json(successfulResponse()));
     }
 
     @Test
     public void doesSendingUnconfiguredSystemReturnErrorResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
         resubmitRequest.setSystem("BitHub");
-        resubmitRequest.setKey("Login");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
+        resubmitRequest.setPayload("Login");
+        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isBadRequest())
@@ -143,10 +123,9 @@ public class ResubmitGatewayTest {
     @Test
     public void doesServerErrorReturnInternalServerErrorResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
         resubmitRequest.setSystem("BadHub");
-        resubmitRequest.setKey("Login");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
+        resubmitRequest.setPayload("Login");
+        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isInternalServerError())

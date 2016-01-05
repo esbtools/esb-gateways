@@ -59,10 +59,9 @@ public class ResubmitServiceTest {
     @Test
     public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
         resubmitRequest.setSystem("GitHub");
-        resubmitRequest.setKey("Login");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
+        resubmitRequest.setPayload("Login");
+        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         ResubmitResponse resubmitResponse = resubmitService.resubmit(resubmitRequest);
         assertEquals(ResubmitResponse.Status.Success, resubmitResponse.getStatus());
@@ -70,41 +69,19 @@ public class ResubmitServiceTest {
     }
 
     @Test(expected = IncompleteRequestException.class)
-    public void doesMissingEntityResultInException() {
-        ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setSystem("GitHub");
-        resubmitRequest.setKey("Login");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
-
-        resubmitService.resubmit(resubmitRequest);
-    }
-
-    @Test(expected = IncompleteRequestException.class)
     public void doesMissingSystemResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
-        resubmitRequest.setKey("Login");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
+        resubmitRequest.setPayload("Login");
+        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         resubmitService.resubmit(resubmitRequest);
     }
 
     @Test(expected = IncompleteRequestException.class)
-    public void doesMissingKeyResultInException() {
+    public void doesMissingPayloadResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
         resubmitRequest.setSystem("GitHub");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
-
-        resubmitService.resubmit(resubmitRequest);
-    }
-
-    @Test(expected = IncompleteRequestException.class)
-    public void doesMissingValuesResultInException() {
-        ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
-        resubmitRequest.setSystem("GitHub");
-        resubmitRequest.setKey("Login");
+        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         resubmitService.resubmit(resubmitRequest);
     }
@@ -112,10 +89,9 @@ public class ResubmitServiceTest {
     @Test(expected = ResubmitFailedException.class)
     public void doesServerErrorResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
-        resubmitRequest.setEntity("User");
         resubmitRequest.setSystem("BadHub");
-        resubmitRequest.setKey("Login");
-        resubmitRequest.setValues(Arrays.asList("derek63","dhaynes"));
+        resubmitRequest.setPayload("Login");
+        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
 
         badResubmitService.resubmit(resubmitRequest);
     }
