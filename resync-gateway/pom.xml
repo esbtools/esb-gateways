@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-        <relativePath />
+        <groupId>org.esbtools.gateway.resync</groupId>
+        <artifactId>esb-gateways</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.esbtools.gateway.resync</groupId>
-    <artifactId>esb-gateways</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>esb-resync-gateway</artifactId>
+    <packaging>war</packaging>
     <version>1.1.0-SNAPSHOT</version>
-    <name>esb-gateways: ${project.groupId}|${project.artifactId}</name>
-    <description>ESB Gateways</description>
+    <name>esb-resync-gateway: ${project.groupId}|${project.artifactId}</name>
+    <description>ESB Resync Gateway</description>
     <licenses>
         <license>
             <name>GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007</name>
@@ -21,9 +20,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:https://github.com/esbtools/esb-gateways.git</connection>
-        <developerConnection>scm:git:git@github.com:esbtools/esb-gateways.git</developerConnection>
-        <url>https://github.com/esbtools/esb-gateways</url>
+        <connection>scm:git:https://github.com/esbtools/esb-resync-gateway.git</connection>
+        <developerConnection>scm:git:git@github.com:esbtools/esb-resync-gateway.git</developerConnection>
+        <url>https://github.com/esbtools/esb-resync-gateway</url>
         <tag>HEAD</tag>
     </scm>
     <properties>
@@ -69,6 +68,16 @@
     </distributionManagement>
     <developers>
         <developer>
+            <id>vrjain</id>
+            <name>Vritant Jain</name>
+            <email>vrjain@redhat.com</email>
+            <organization>Red Hat</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+        <developer>
             <id>dhaynes</id>
             <name>Derek Haynes</name>
             <email>dhaynes@redhat.com</email>
@@ -79,9 +88,7 @@
             <timezone>+1</timezone>
         </developer>
     </developers>
-    <modules>
-        <module>resync-gateway</module>
-    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -247,75 +254,99 @@
     </build>
     <profiles>
         <profile>
-            <id>release</id>
+            <id>jetty</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>2.5</version>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>9.2.1.v20140609</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>oracle</groupId>
+                                <artifactId>aqapi13</artifactId>
+                                <version>${oracle.aq.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>oracle</groupId>
+                                <artifactId>ojdbc6</artifactId>
+                                <version>${oracle.jdbc.version}</version>
+                            </dependency>
+                        </dependencies>
                         <configuration>
-                            <tagNameFormat>V@{project.version}</tagNameFormat>
-                            <autoVersionSubmodules>true</autoVersionSubmodules>
-                            <useReleaseProfile>false</useReleaseProfile>
-                            <releaseProfiles>release</releaseProfiles>
-                            <goals>deploy</goals>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <configuration>
-                            <useAgent>false</useAgent>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.2</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.3</version>
-                        <configuration>
-                            <source>1.7</source>
-                            <target>1.7</target>
+                            <httpConnector>
+                                <host>localhost</host>
+                            </httpConnector>
                         </configuration>
                     </plugin>
                 </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>rpm</id>
+            <!-- RPM packing -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>attached-rpm</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <name>esbtools-${project.artifactId}</name>
+                            <release>${rpm.release}</release>
+                            <group>${rpm.group}</group>
+                            <copyright>${rpm.copyright}</copyright>
+                            <summary>${rpm.summary}</summary>
+                            <epoch>1</epoch>
+                            <buildSRPM>true</buildSRPM>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <mappings>
+                                <mapping>
+                                    <directory>${rpm.war.directory}</directory>
+                                    <filemode>${rpm.filemode}</filemode>
+                                    <username>${rpm.username}</username>
+                                    <groupname>${rpm.groupname}</groupname>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}.war</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.jcliff.directory}</directory>
+                                    <filemode>${rpm.filemode}</filemode>
+                                    <username>${rpm.username}</username>
+                                    <groupname>${rpm.groupname}</groupname>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.outputDirectory}/${project.artifactId}.deploy</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                            </mappings>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>false</filtering>
+                        <excludes>
+                            <exclude>deploy/*.deploy</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources/deploy</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
             </build>
         </profile>
     </profiles>
