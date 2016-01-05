@@ -74,6 +74,7 @@
     </developers>
     <modules>
         <module>resync-gateway</module>
+        <module>resubmit-gateway</module>
     </modules>
     <dependencyManagement>
         <dependencies>
