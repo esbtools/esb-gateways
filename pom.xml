@@ -7,7 +7,7 @@
         <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.esbtools.gateway.resync</groupId>
+    <groupId>org.esbtools.gateway</groupId>
     <artifactId>esb-gateways</artifactId>
     <packaging>pom</packaging>
     <version>1.1.0-SNAPSHOT</version>
@@ -46,13 +46,6 @@
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
         <maven.compiler.verbose>true</maven.compiler.verbose>
-        <rpm.group>ESB Resync Gateway</rpm.group>
-        <rpm.copyright>esbtools Contributors</rpm.copyright>
-        <rpm.filemode>744</rpm.filemode>
-        <rpm.username>jboss</rpm.username>
-        <rpm.groupname>jboss</rpm.groupname>
-        <rpm.war.directory>/var/lib/jbossas/standalone/deployments</rpm.war.directory>
-        <rpm.jcliff.directory>/etc/redhat/eap6</rpm.jcliff.directory>
         <sonar.exclusions>**/*Test.java,**/*Exception.java</sonar.exclusions>
         <sonar.jdbc.url>jdbc:postgresql://127.0.0.1:5432/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
         <sonar.jdbc.username>sonar</sonar.jdbc.username>

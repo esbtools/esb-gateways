@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.esbtools.gateway.resync</groupId>
+        <groupId>org.esbtools.gateway</groupId>
         <artifactId>esb-gateways</artifactId>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
@@ -19,32 +19,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <scm>
-        <connection>scm:git:https://github.com/esbtools/esb-resync-gateway.git</connection>
-        <developerConnection>scm:git:git@github.com:esbtools/esb-resync-gateway.git</developerConnection>
-        <url>https://github.com/esbtools/esb-resync-gateway</url>
-        <tag>HEAD</tag>
-    </scm>
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javax.enterprise.version>7.0</javax.enterprise.version>
-        <javax.inject.version>1</javax.inject.version>
-        <javax.servlet.version>3.1.0</javax.servlet.version>
-        <junit.version>4.11</junit.version>
-        <spring.version>4.2.2.RELEASE</spring.version>
-        <jackson.version>2.4.4</jackson.version>
-        <slf4j.version>1.7.12</slf4j.version>
-        <activemq.version>5.12.1</activemq.version>
-        <oracle.aq.version>10g</oracle.aq.version>
-        <oracle.jdbc.version>11g</oracle.jdbc.version>
-        <hamcrest.version>1.3</hamcrest.version>
-        <jsonassert.version>1.2.3</jsonassert.version>
-        <commons-lang.version>3.4</commons-lang.version>
-        <commons-collections.version>4.0</commons-collections.version>
-        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-        <maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
-        <maven.compiler.verbose>true</maven.compiler.verbose>
         <rpm.group>ESB Resync Gateway</rpm.group>
         <rpm.copyright>esbtools Contributors</rpm.copyright>
         <rpm.filemode>744</rpm.filemode>
@@ -52,55 +27,7 @@
         <rpm.groupname>jboss</rpm.groupname>
         <rpm.war.directory>/var/lib/jbossas/standalone/deployments</rpm.war.directory>
         <rpm.jcliff.directory>/etc/redhat/eap6</rpm.jcliff.directory>
-        <sonar.exclusions>**/*Test.java,**/*Exception.java</sonar.exclusions>
-        <sonar.jdbc.url>jdbc:postgresql://127.0.0.1:5432/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
-        <sonar.jdbc.username>sonar</sonar.jdbc.username>
-        <sonar.jdbc.password>sonar</sonar.jdbc.password>
-        <sonar.host.url>http://127.0.0.1:8080</sonar.host.url>
-        <sonar.projectName>esb-resync-gateway</sonar.projectName>
-        <jenkins.build.number>1</jenkins.build.number>
     </properties>
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-    <developers>
-        <developer>
-            <id>vrjain</id>
-            <name>Vritant Jain</name>
-            <email>vrjain@redhat.com</email>
-            <organization>Red Hat</organization>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>-5</timezone>
-        </developer>
-        <developer>
-            <id>dhaynes</id>
-            <name>Derek Haynes</name>
-            <email>dhaynes@redhat.com</email>
-            <organization>Red Hat</organization>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-    </developers>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
