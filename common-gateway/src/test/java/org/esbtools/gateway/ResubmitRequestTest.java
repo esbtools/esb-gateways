@@ -122,4 +122,16 @@ public class ResubmitRequestTest {
                 "</ResubmitRequest>\n", resubmitRequest.toXML());
     }
 
+    @Test
+    public void testToJson() throws Exception {
+        assertEquals("{\n" +
+                "  \"system\" : \"system\",\n" +
+                "  \"payload\" : \"<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>\",\n" +
+                "  \"headers\" : {\n" +
+                "    \"header2\" : \"value2\",\n" +
+                "    \"header1\" : \"value1\"\n" +
+                "  }\n" +
+                "}", resubmitRequest.toJson());
+    }
+
 }

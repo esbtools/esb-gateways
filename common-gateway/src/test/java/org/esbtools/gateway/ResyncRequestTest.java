@@ -112,4 +112,14 @@ public class ResyncRequestTest {
                 "</SyncRequest>\n", resyncRequest.toXML());
     }
 
+    @Test
+    public void testToJson() throws Exception {
+        assertEquals("{\n" +
+                "  \"entity\" : \"entity\",\n" +
+                "  \"system\" : \"system\",\n" +
+                "  \"key\" : \"key\",\n" +
+                "  \"values\" : [ \"value1\", \"value2\" ]\n" +
+                "}", resyncRequest.toJson());
+    }
+
 }
