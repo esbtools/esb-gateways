@@ -61,6 +61,13 @@ public class ExceptionsTest {
     }
 
     @Test
+    public void testInvalidSystemExceptionForString() throws Exception {
+        InvalidSystemException invalidSystemException = new InvalidSystemException("system");
+        assertTrue(RuntimeException.class.isAssignableFrom(invalidSystemException.getClass()));
+        assertEquals(GatewayErrorMessages.invalidSystem("system"), invalidSystemException.getMessage());
+    }
+
+    @Test
     public void testSystemConfigurationException() throws Exception {
         SystemConfigurationException systemConfigurationException = new SystemConfigurationException("system");
         assertTrue(RuntimeException.class.isAssignableFrom(systemConfigurationException.getClass()));

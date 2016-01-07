@@ -34,6 +34,7 @@ public class ResubmitResponseTest {
         resubmitResponse = new ResubmitResponse();
         resubmitResponse.setStatus(GatewayResponse.Status.Error);
         resubmitResponse.setErrorMessage("error");
+        resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Error, "error");
     }
 
     @After
@@ -48,7 +49,7 @@ public class ResubmitResponseTest {
 
     @Test
     public void testSetStatus() throws Exception {
-        resubmitResponse.setStatus(GatewayResponse.Status.Success);
+        resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Success, null);
         assertEquals(GatewayResponse.Status.Success, resubmitResponse.getStatus());
     }
 
@@ -59,7 +60,7 @@ public class ResubmitResponseTest {
 
     @Test
     public void testSetErrorMessage() throws Exception {
-        resubmitResponse.setErrorMessage("error1");
+        resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Error, "error1");
         assertEquals("error1", resubmitResponse.getErrorMessage());
     }
 

@@ -48,7 +48,7 @@ public class ResyncResponseTest {
 
     @Test
     public void testSetStatus() throws Exception {
-        resyncResponse.setStatus(ResyncResponse.Status.Success);
+        resyncResponse = new ResyncResponse(GatewayResponse.Status.Success, null);
         assertEquals(ResyncResponse.Status.Success, resyncResponse.getStatus());
     }
 
@@ -59,7 +59,7 @@ public class ResyncResponseTest {
 
     @Test
     public void testSetErrorMessage() throws Exception {
-        resyncResponse.setErrorMessage("error1");
+        resyncResponse = new ResyncResponse(GatewayResponse.Status.Error, "error1");
         assertEquals("error1", resyncResponse.getErrorMessage());
     }
 
