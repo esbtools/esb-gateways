@@ -57,7 +57,7 @@ public class JmsResubmitService implements ResubmitService {
     private ResubmitResponse enqueue(final ResubmitRequest resubmitRequest) {
         ResubmitResponse resubmitResponse = new ResubmitResponse();
         try {
-            LOGGER.info("Sending message {}", resubmitRequest.toXML());
+            LOGGER.info("Sending message {}", resubmitRequest.getPayload());
             jmsResubmitConfiguration.getBroker().send(new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {

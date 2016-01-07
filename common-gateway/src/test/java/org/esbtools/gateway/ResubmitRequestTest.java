@@ -24,7 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +38,10 @@ public class ResubmitRequestTest {
         resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("system");
         resubmitRequest.setPayload("<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>");
-        resubmitRequest.setHeaders(Arrays.asList("header1","header2"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("header1", "value1");
+        headers.put("header2", "value2");
+        resubmitRequest.setHeaders(headers);
     }
 
     @After
@@ -68,14 +72,25 @@ public class ResubmitRequestTest {
     }
 
     @Test
-    public void testGetValues() throws Exception {
-        assertEquals(Arrays.asList("header1","header2"), resubmitRequest.getHeaders());
+    public void testGetHeaders() throws Exception {
+        Map<String, String> expectedHeaders = new HashMap<>();
+        expectedHeaders.put("header1", "value1");
+        expectedHeaders.put("header2", "value2");
+
+        assertEquals(expectedHeaders, resubmitRequest.getHeaders());
     }
 
     @Test
-    public void testSetValues() throws Exception {
-        resubmitRequest.setHeaders(Arrays.asList("header3","header4"));
-        assertEquals(Arrays.asList("header3","header4"), resubmitRequest.getHeaders());
+    public void testSetHeaders() throws Exception {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("header3", "value3");
+        headers.put("header4", "value4");
+        resubmitRequest.setHeaders(headers);
+        Map<String, String> expectedHeaders = new HashMap<>();
+        expectedHeaders.put("header3", "value3");
+        expectedHeaders.put("header4", "value4");
+
+        assertEquals(expectedHeaders, resubmitRequest.getHeaders());
     }
 
     @Test
@@ -85,15 +100,23 @@ public class ResubmitRequestTest {
 
     @Test
     public void testToString() {
-        assertEquals("ResubmitRequest [system=system, payload=<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>, headers=[header1, header2]]", resubmitRequest.toString());
+        assertEquals("ResubmitRequest [system=system, payload=<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>, headers={header2=value2, header1=value1}]", resubmitRequest.toString());
     }
 
     @Test
     public void testToXml() throws Exception {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<ResubmitRequest>\n" +
-                "    <Header>header1</Header>\n" +
-                "    <Header>header2</Header>\n" +
+                "    <headers>\n" +
+                "        <entry>\n" +
+                "            <key>header2</key>\n" +
+                "            <value>value2</value>\n" +
+                "        </entry>\n" +
+                "        <entry>\n" +
+                "            <key>header1</key>\n" +
+                "            <value>value1</value>\n" +
+                "        </entry>\n" +
+                "    </headers>\n" +
                 "    <Payload>&lt;Payload&gt;&lt;Name&gt;Name&lt;/Name&gt;&lt;Location&gt;&lt;City&gt;Berlin&lt;/City&gt;&lt;/Location&gt;&lt;/Payload&gt;</Payload>\n" +
                 "    <System>system</System>\n" +
                 "</ResubmitRequest>\n", resubmitRequest.toXML());

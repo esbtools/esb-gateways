@@ -31,7 +31,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -60,12 +61,15 @@ public class ResubmitGatewayTest {
 
     @Test
     public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() throws Exception {
-        ResubmitRequest request = new ResubmitRequest();
-        request.setSystem("GitHub");
-        request.setPayload("Login");
-        request.setHeaders(Arrays.asList("derek63","dhaynes"));
+        ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setPayload("Login");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
-        mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
+        mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(successfulResponse()));
@@ -73,11 +77,14 @@ public class ResubmitGatewayTest {
 
     @Test
     public void doesMissingSystemReturnBadRequestResponse() throws Exception {
-        ResubmitRequest request = new ResubmitRequest();
-        request.setPayload("Login");
-        request.setHeaders(Arrays.asList("derek63","dhaynes"));
+        ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setPayload("Login");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
-        mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
+        mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(invalidSystem(null)));
@@ -85,23 +92,26 @@ public class ResubmitGatewayTest {
 
     @Test
     public void doesMissingKeyReturnBadRequestResponse() throws Exception {
-        ResubmitRequest request = new ResubmitRequest();
-        request.setSystem("GitHub");
-        request.setHeaders(Arrays.asList("derek63","dhaynes"));
+        ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setSystem("GitHub");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
-        mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
+        mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(content().json(incompleteRequestResponse(request)));
+                .andExpect(content().json(incompleteRequestResponse(resubmitRequest)));
     }
 
     @Test
     public void doesMissingHeadersReturnOkResponse() throws Exception {
-        ResubmitRequest request = new ResubmitRequest();
-        request.setSystem("GitHub");
-        request.setPayload("Login");
+        ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setPayload("Login");
 
-        mockMvc.perform(post("/resubmit").content(request.toJson()).contentType("application/json"))
+        mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(successfulResponse()));
@@ -112,7 +122,10 @@ public class ResubmitGatewayTest {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("BitHub");
         resubmitRequest.setPayload("Login");
-        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
         mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isBadRequest())
@@ -125,7 +138,10 @@ public class ResubmitGatewayTest {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("BadHub");
         resubmitRequest.setPayload("Login");
-        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
         mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
                 .andExpect(status().isInternalServerError())

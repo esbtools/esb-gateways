@@ -30,7 +30,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringWriter;
-import java.util.List;
+import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -39,7 +39,7 @@ public class ResubmitRequest {
 
     private String system;
     private String payload;
-    private List<String> headers;
+    private Map<String, String> headers;
 
     @XmlElement(name="System")
     public String getSystem() {
@@ -60,11 +60,11 @@ public class ResubmitRequest {
     }
 
     @XmlElement( name="Header" )
-    public List<String> getHeaders() {
+    public Map<String, String> getHeaders() {
         return headers;
     }
 
-    public void setHeaders(List<String> headers) {
+    public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
 

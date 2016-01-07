@@ -25,7 +25,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +38,10 @@ public class ResubmitErrorMessagesTest {
         resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("system");
         resubmitRequest.setPayload("key");
-        resubmitRequest.setHeaders(Arrays.asList("value1","value2"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("header1", "value1");
+        headers.put("header2", "value2");
+        resubmitRequest.setHeaders(headers);
     }
 
     @After

@@ -30,7 +30,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -61,7 +62,10 @@ public class ResubmitServiceTest {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
         resubmitRequest.setPayload("Login");
-        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
         ResubmitResponse resubmitResponse = resubmitService.resubmit(resubmitRequest);
         assertEquals(ResubmitResponse.Status.Success, resubmitResponse.getStatus());
@@ -72,7 +76,10 @@ public class ResubmitServiceTest {
     public void doesMissingSystemResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setPayload("Login");
-        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
         resubmitService.resubmit(resubmitRequest);
     }
@@ -81,7 +88,10 @@ public class ResubmitServiceTest {
     public void doesMissingPayloadResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
-        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
         resubmitService.resubmit(resubmitRequest);
     }
@@ -91,7 +101,10 @@ public class ResubmitServiceTest {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("BadHub");
         resubmitRequest.setPayload("Login");
-        resubmitRequest.setHeaders(Arrays.asList("derek63","dhaynes"));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
 
         badResubmitService.resubmit(resubmitRequest);
     }
