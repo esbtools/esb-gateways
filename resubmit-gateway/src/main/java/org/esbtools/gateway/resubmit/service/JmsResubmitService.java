@@ -18,9 +18,10 @@
  */
 package org.esbtools.gateway.resubmit.service;
 
+import org.apache.commons.collections4.MapUtils;
+import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.esbtools.gateway.resubmit.ResubmitRequest;
 import org.esbtools.gateway.resubmit.ResubmitResponse;
-import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
+import java.util.Map;
 
 @Service
 public class JmsResubmitService implements ResubmitService {
@@ -62,6 +64,12 @@ public class JmsResubmitService implements ResubmitService {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     Message message = session.createTextMessage(resubmitRequest.getPayload());
+                    if(MapUtils.isNotEmpty(resubmitRequest.getHeaders())) {
+                        for (Map.Entry<String, String> header : resubmitRequest.getHeaders().entrySet()) {
+                            LOGGER.info("Adding header key={}, value{}", header.getKey(), header.getValue());
+                            message.setStringProperty(header.getKey(), header.getValue());
+                        }
+                    }
                     return message;
                 }
             });
