@@ -18,18 +18,9 @@
  */
 package org.esbtools.gateway.resubmit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import org.esbtools.gateway.GatewayResponse;
 
-public class ResubmitResponse {
-
-    public enum Status {
-        Success, Error
-    }
-
-    private Status status = Status.Success;
-    private String errorMessage;
+public class ResubmitResponse extends GatewayResponse {
 
     public ResubmitResponse() {
 
@@ -40,37 +31,9 @@ public class ResubmitResponse {
         this.errorMessage = errorMessage;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-        this.setStatus(Status.Error);
-    }
-
-    public String toJson() {
-        String thisJson;
-        try {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            thisJson = ow.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return thisJson;
-    }
-
     @Override
     public String toString() {
-        return String.format("ResubmitResponse [status=%s, errorMessage=%s]", status, errorMessage);
+        return super.toString().replace("Gateway", "Resubmit");
     }
 
 }

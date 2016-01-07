@@ -18,6 +18,7 @@
  */
 package org.esbtools.gateway.resubmit;
 
+import org.esbtools.gateway.GatewayResponse;
 import org.esbtools.gateway.exception.IncompleteRequestException;
 import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.esbtools.gateway.resubmit.service.ResubmitService;
@@ -68,7 +69,7 @@ public class ResubmitServiceTest {
         resubmitRequest.setHeaders(headers);
 
         ResubmitResponse resubmitResponse = resubmitService.resubmit(resubmitRequest);
-        assertEquals(ResubmitResponse.Status.Success, resubmitResponse.getStatus());
+        assertEquals(GatewayResponse.Status.Success, resubmitResponse.getStatus());
         assertEquals(null, resubmitResponse.getErrorMessage());
     }
 

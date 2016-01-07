@@ -19,6 +19,7 @@
 package org.esbtools.gateway.resubmit.service;
 
 import org.apache.commons.collections4.MapUtils;
+import org.esbtools.gateway.GatewayResponse;
 import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.esbtools.gateway.resubmit.ResubmitRequest;
 import org.esbtools.gateway.resubmit.ResubmitResponse;
@@ -73,7 +74,7 @@ public class JmsResubmitService implements ResubmitService {
                     return message;
                 }
             });
-            resubmitResponse.setStatus(ResubmitResponse.Status.Success);
+            resubmitResponse.setStatus(GatewayResponse.Status.Success);
         } catch (RuntimeException e) {
             LOGGER.error("An error occurred when enqueuing the resubmit message: {}", resubmitRequest, e);
             throw new ResubmitFailedException(resubmitRequest);

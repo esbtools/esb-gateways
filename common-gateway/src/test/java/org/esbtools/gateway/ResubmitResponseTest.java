@@ -32,7 +32,7 @@ public class ResubmitResponseTest {
     @Before
     public void setUp() throws Exception {
         resubmitResponse = new ResubmitResponse();
-        resubmitResponse.setStatus(ResubmitResponse.Status.Error);
+        resubmitResponse.setStatus(GatewayResponse.Status.Error);
         resubmitResponse.setErrorMessage("error");
     }
 
@@ -43,13 +43,13 @@ public class ResubmitResponseTest {
 
     @Test
     public void testGetStatus() throws Exception {
-        assertEquals(ResubmitResponse.Status.Error, resubmitResponse.getStatus());
+        assertEquals(GatewayResponse.Status.Error, resubmitResponse.getStatus());
     }
 
     @Test
     public void testSetStatus() throws Exception {
-        resubmitResponse.setStatus(ResubmitResponse.Status.Success);
-        assertEquals(ResubmitResponse.Status.Success, resubmitResponse.getStatus());
+        resubmitResponse.setStatus(GatewayResponse.Status.Success);
+        assertEquals(GatewayResponse.Status.Success, resubmitResponse.getStatus());
     }
 
     @Test

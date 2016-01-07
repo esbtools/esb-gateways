@@ -18,6 +18,7 @@
  */
 package org.esbtools.gateway.resubmit;
 
+import org.esbtools.gateway.GatewayResponse;
 import org.esbtools.gateway.exception.GatewayErrorMessages;
 import org.esbtools.gateway.resubmit.controller.ResubmitGateway;
 import org.junit.After;
@@ -150,22 +151,22 @@ public class ResubmitGatewayTest {
     }
 
     private String successfulResponse() {
-        return new ResubmitResponse(ResubmitResponse.Status.Success, null).toJson();
+        return new ResubmitResponse(GatewayResponse.Status.Success, null).toJson();
     }
 
     private String incompleteRequestResponse(ResubmitRequest resubmitRequest) {
-        return new ResubmitResponse(ResubmitResponse.Status.Error, GatewayErrorMessages.incompleteRequest(resubmitRequest)).toJson();
+        return new ResubmitResponse(GatewayResponse.Status.Error, GatewayErrorMessages.incompleteRequest(resubmitRequest)).toJson();
     }
 
     private String invalidSystem(String systemName) {
-        return new ResubmitResponse(ResubmitResponse.Status.Error, GatewayErrorMessages.invalidSystem(systemName)).toJson();
+        return new ResubmitResponse(GatewayResponse.Status.Error, GatewayErrorMessages.invalidSystem(systemName)).toJson();
     }
 
     private String systemNotConfigured(String systemName) {
-        return new ResubmitResponse(ResubmitResponse.Status.Error, GatewayErrorMessages.systemNotConfigured(systemName)).toJson();
+        return new ResubmitResponse(GatewayResponse.Status.Error, GatewayErrorMessages.systemNotConfigured(systemName)).toJson();
     }
 
     private String resubmitFailed(ResubmitRequest resubmitRequest) {
-        return new ResubmitResponse(ResubmitResponse.Status.Error, GatewayErrorMessages.resubmitFailed(resubmitRequest)).toJson();
+        return new ResubmitResponse(GatewayResponse.Status.Error, GatewayErrorMessages.resubmitFailed(resubmitRequest)).toJson();
     }
 }

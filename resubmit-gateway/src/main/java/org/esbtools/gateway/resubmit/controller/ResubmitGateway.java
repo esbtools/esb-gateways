@@ -18,6 +18,7 @@
  */
 package org.esbtools.gateway.resubmit.controller;
 
+import org.esbtools.gateway.GatewayResponse;
 import org.esbtools.gateway.exception.IncompleteRequestException;
 import org.esbtools.gateway.exception.InvalidSystemException;
 import org.esbtools.gateway.exception.ResubmitFailedException;
@@ -56,25 +57,25 @@ public class ResubmitGateway {
 
     @ExceptionHandler(InvalidSystemException.class)
     private ResponseEntity<ResubmitResponse> invalidSystemExceptionHandler (InvalidSystemException e) {
-        ResubmitResponse resubmitResponse = new ResubmitResponse(ResubmitResponse.Status.Error, e.getMessage());
+        ResubmitResponse resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Error, e.getMessage());
         return new ResponseEntity<>(resubmitResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(SystemConfigurationException.class)
     private ResponseEntity<ResubmitResponse> systemConfigurationExceptionHandler (SystemConfigurationException e) {
-        ResubmitResponse resubmitResponse = new ResubmitResponse(ResubmitResponse.Status.Error, e.getMessage());
+        ResubmitResponse resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Error, e.getMessage());
         return new ResponseEntity<>(resubmitResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResubmitFailedException.class)
     private ResponseEntity<ResubmitResponse> resubmitFailedExceptionHandler (ResubmitFailedException e) {
-        ResubmitResponse resubmitResponse = new ResubmitResponse(ResubmitResponse.Status.Error, e.getMessage());
+        ResubmitResponse resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Error, e.getMessage());
         return new ResponseEntity<>(resubmitResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IncompleteRequestException.class)
     private ResponseEntity<ResubmitResponse> incompleteRequestExceptionHandler (IncompleteRequestException e) {
-        ResubmitResponse resubmitResponse = new ResubmitResponse(ResubmitResponse.Status.Error, e.getMessage());
+        ResubmitResponse resubmitResponse = new ResubmitResponse(GatewayResponse.Status.Error, e.getMessage());
         return new ResponseEntity<>(resubmitResponse, HttpStatus.BAD_REQUEST);
     }
 
