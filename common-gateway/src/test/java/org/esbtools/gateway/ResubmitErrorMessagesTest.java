@@ -16,9 +16,10 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.esbtools.gateway.resubmit;
+package org.esbtools.gateway;
 
 import org.esbtools.gateway.exception.GatewayErrorMessages;
+import org.esbtools.gateway.resubmit.ResubmitRequest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
