@@ -18,12 +18,12 @@
  */
 package org.esbtools.gateway.resubmit.controller;
 
-import org.esbtools.gateway.resubmit.ResubmitRequest;
-import org.esbtools.gateway.resubmit.ResubmitResponse;
 import org.esbtools.gateway.exception.IncompleteRequestException;
 import org.esbtools.gateway.exception.InvalidSystemException;
 import org.esbtools.gateway.exception.ResubmitFailedException;
 import org.esbtools.gateway.exception.SystemConfigurationException;
+import org.esbtools.gateway.resubmit.ResubmitRequest;
+import org.esbtools.gateway.resubmit.ResubmitResponse;
 import org.esbtools.gateway.resubmit.service.ResubmitService;
 import org.esbtools.gateway.resubmit.service.ResubmitServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

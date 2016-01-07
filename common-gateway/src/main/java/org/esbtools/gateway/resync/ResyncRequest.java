@@ -19,17 +19,11 @@
 package org.esbtools.gateway.resync;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import org.esbtools.gateway.GatewayRequest;
 import org.esbtools.gateway.exception.IncompleteRequestException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.StringWriter;
 import java.util.List;
 
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
@@ -37,7 +31,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 
 @XmlRootElement(name="SyncRequest")
-public class ResyncRequest {
+public class ResyncRequest extends GatewayRequest {
 
     private String entity;
     private String system;
@@ -80,36 +74,11 @@ public class ResyncRequest {
         this.values = values;
     }
 
+    @Override
     public void ensureRequiredPropertiesHaveValues() {
         if(isBlank(entity) || isBlank(system) || isBlank(key) || isEmpty(values)) {
             throw new IncompleteRequestException(this);
         }
-    }
-
-    public String toXML() {
-        StringWriter thisXML = new StringWriter();
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ResyncRequest.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            jaxbMarshaller.marshal(this, thisXML);
-
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
-        return thisXML.toString();
-    }
-
-    public String toJson() {
-        String thisJson;
-        try {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            thisJson = ow.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return thisJson;
     }
 
     @Override
