@@ -68,4 +68,12 @@ public class ResubmitResponseTest {
     public void testToString() throws Exception {
         assertEquals("ResubmitResponse [status=Error, errorMessage=error]", resubmitResponse.toString());
     }
+
+    @Test
+    public void testToJson() throws Exception {
+        assertEquals("{\n" +
+                "  \"status\" : \"Error\",\n" +
+                "  \"errorMessage\" : \"error\"\n" +
+                "}", resubmitResponse.toJson());
+    }
 }

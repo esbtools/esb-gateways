@@ -67,4 +67,12 @@ public class ResyncResponseTest {
     public void testToString() throws Exception {
         assertEquals("ResyncResponse [status=Error, errorMessage=error]", resyncResponse.toString());
     }
+
+    @Test
+    public void testToJson() throws Exception {
+        assertEquals("{\n" +
+                "  \"status\" : \"Error\",\n" +
+                "  \"errorMessage\" : \"error\"\n" +
+                "}", resyncResponse.toJson());
+    }
 }
