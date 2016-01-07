@@ -61,7 +61,7 @@ public class JmsResubmitService implements ResubmitService {
             jmsResubmitConfiguration.getBroker().send(new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
-                    Message message = session.createTextMessage(resubmitRequest.toXML());
+                    Message message = session.createTextMessage(resubmitRequest.getPayload());
                     return message;
                 }
             });
