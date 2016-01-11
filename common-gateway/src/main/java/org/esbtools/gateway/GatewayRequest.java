@@ -29,6 +29,8 @@ import java.io.StringWriter;
 
 public abstract class GatewayRequest {
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public abstract void ensureRequiredPropertiesHaveValues();
 
     public abstract String toString();
@@ -52,7 +54,7 @@ public abstract class GatewayRequest {
     public String toJson() {
         String thisJson;
         try {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
             thisJson = ow.writeValueAsString(this);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
