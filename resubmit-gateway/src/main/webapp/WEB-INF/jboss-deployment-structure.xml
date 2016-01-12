@@ -1,0 +1,8 @@
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <module name="org.esbtools.gateway"/>
+            <module name="oracle.aq" optional="TRUE" />
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>
