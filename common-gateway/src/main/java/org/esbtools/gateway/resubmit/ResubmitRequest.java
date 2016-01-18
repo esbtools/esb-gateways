@@ -32,6 +32,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class ResubmitRequest extends GatewayRequest {
 
     private String system;
+    private String destination;
     private String payload;
     private Map<String, String> headers;
 
@@ -42,6 +43,15 @@ public class ResubmitRequest extends GatewayRequest {
 
     public void setSystem(String system) {
         this.system = system;
+    }
+
+    @XmlElement(name="Destination")
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     @XmlElement(name="Payload")
@@ -64,13 +74,13 @@ public class ResubmitRequest extends GatewayRequest {
 
     @Override
     public void ensureRequiredPropertiesHaveValues() {
-        if(isBlank(system) || isBlank(payload)) {
+        if(isBlank(system) || isBlank(destination) || isBlank(payload)) {
             throw new IncompleteRequestException(this);
         }
     }
 
     @Override
     public String toString() {
-        return String.format("ResubmitRequest [system=%s, payload=%s, headers=%s]", system, payload, headers);
+        return String.format("ResubmitRequest [system=%s, destination=%s, payload=%s, headers=%s]", system, destination, payload, headers);
     }
 }

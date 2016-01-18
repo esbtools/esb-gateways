@@ -62,6 +62,7 @@ public class ResubmitServiceTest {
     public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
@@ -76,6 +77,7 @@ public class ResubmitServiceTest {
     @Test(expected = IncompleteRequestException.class)
     public void doesMissingSystemResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
@@ -89,6 +91,7 @@ public class ResubmitServiceTest {
     public void doesMissingPayloadResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setDestination("Destination");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
         headers.put("otherUserId", "dhaynes");
@@ -101,6 +104,7 @@ public class ResubmitServiceTest {
     public void doesServerErrorResultInException() {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("BadHub");
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");

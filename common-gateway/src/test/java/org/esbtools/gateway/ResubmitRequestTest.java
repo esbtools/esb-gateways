@@ -37,6 +37,7 @@ public class ResubmitRequestTest {
     public void setUp() throws Exception {
         resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("system");
+        resubmitRequest.setDestination("destination");
         resubmitRequest.setPayload("<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>");
         Map<String, String> headers = new HashMap<>();
         headers.put("header1", "value1");
@@ -58,6 +59,17 @@ public class ResubmitRequestTest {
     public void testSetSystem() throws Exception {
         resubmitRequest.setSystem("system1");
         assertEquals("system1", resubmitRequest.getSystem());
+    }
+
+    @Test
+    public void testGetDestination() throws Exception {
+        assertEquals("destination", resubmitRequest.getDestination());
+    }
+
+    @Test
+    public void testSetDestination() throws Exception {
+        resubmitRequest.setDestination("destination1");
+        assertEquals("destination1", resubmitRequest.getDestination());
     }
 
     @Test
@@ -100,13 +112,14 @@ public class ResubmitRequestTest {
 
     @Test
     public void testToString() {
-        assertEquals("ResubmitRequest [system=system, payload=<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>, headers={header2=value2, header1=value1}]", resubmitRequest.toString());
+        assertEquals("ResubmitRequest [system=system, destination=destination, payload=<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>, headers={header2=value2, header1=value1}]", resubmitRequest.toString());
     }
 
     @Test
     public void testToXml() throws Exception {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<ResubmitRequest>\n" +
+                "    <Destination>destination</Destination>\n" +
                 "    <headers>\n" +
                 "        <entry>\n" +
                 "            <key>header2</key>\n" +
@@ -126,6 +139,7 @@ public class ResubmitRequestTest {
     public void testToJson() throws Exception {
         assertEquals("{\n" +
                 "  \"system\" : \"system\",\n" +
+                "  \"destination\" : \"destination\",\n" +
                 "  \"payload\" : \"<Payload><Name>Name</Name><Location><City>Berlin</City></Location></Payload>\",\n" +
                 "  \"headers\" : {\n" +
                 "    \"header2\" : \"value2\",\n" +
