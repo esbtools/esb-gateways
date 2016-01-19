@@ -64,6 +64,7 @@ public class ResubmitGatewayTest {
     public void doesRequestWithAllRequiredValuesReturnSuccessfulResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
@@ -79,6 +80,7 @@ public class ResubmitGatewayTest {
     @Test
     public void doesMissingSystemReturnBadRequestResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
@@ -92,9 +94,26 @@ public class ResubmitGatewayTest {
     }
 
     @Test
-    public void doesMissingKeyReturnBadRequestResponse() throws Exception {
+    public void doesMissingDestinationReturnBadRequestResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setPayload("Login");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("gitHubUserId", "derek63");
+        headers.put("otherUserId", "dhaynes");
+        resubmitRequest.setHeaders(headers);
+
+        mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json(incompleteRequestResponse(resubmitRequest)));
+    }
+
+    @Test
+    public void doesMissingPayloadReturnBadRequestResponse() throws Exception {
+        ResubmitRequest resubmitRequest = new ResubmitRequest();
+        resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setDestination("Destination");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
         headers.put("otherUserId", "dhaynes");
@@ -110,6 +129,7 @@ public class ResubmitGatewayTest {
     public void doesMissingHeadersReturnOkResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("GitHub");
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
 
         mockMvc.perform(post("/resubmit").content(resubmitRequest.toJson()).contentType("application/json"))
@@ -122,6 +142,7 @@ public class ResubmitGatewayTest {
     public void doesSendingUnconfiguredSystemReturnErrorResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("BitHub");
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
@@ -138,6 +159,7 @@ public class ResubmitGatewayTest {
     public void doesServerErrorReturnInternalServerErrorResponse() throws Exception {
         ResubmitRequest resubmitRequest = new ResubmitRequest();
         resubmitRequest.setSystem("BadHub");
+        resubmitRequest.setDestination("Destination");
         resubmitRequest.setPayload("Login");
         Map<String, String> headers = new HashMap<>();
         headers.put("gitHubUserId", "derek63");
