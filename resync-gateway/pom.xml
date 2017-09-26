@@ -27,7 +27,7 @@
         <rpm.groupname>jboss</rpm.groupname>
         <rpm.war.directory>/var/lib/jbossas/standalone/deployments</rpm.war.directory>
         <rpm.jcliff.directory>/etc/redhat/eap6</rpm.jcliff.directory>
-        <sonar.projectName>esb-resubmit-gateway</sonar.projectName>
+        <sonar.projectName>esb-resync-gateway</sonar.projectName>
     </properties>
     <dependencies>
         <dependency>
