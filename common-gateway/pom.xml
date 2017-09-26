@@ -10,7 +10,6 @@
     <artifactId>esb-common-gateway</artifactId>
     <packaging>jar</packaging>
     <version>1.1.0-SNAPSHOT</version>
-    <name>esb-common-gateway: ${project.groupId}|${project.artifactId}</name>
     <description>ESB Resubmit Gateway</description>
     <licenses>
         <license>
