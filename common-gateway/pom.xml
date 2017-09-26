@@ -10,6 +10,7 @@
     <artifactId>esb-common-gateway</artifactId>
     <packaging>jar</packaging>
     <version>1.1.0-SNAPSHOT</version>
+    <name>esb-gateways: ${project.groupId}|${project.artifactId}</name>
     <description>ESB Resubmit Gateway</description>
     <licenses>
         <license>
@@ -18,6 +19,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <properties>
+        <sonar.projectName>esb-common-gateway</sonar.projectName>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
